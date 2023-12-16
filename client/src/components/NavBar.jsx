@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { MdClose, MdMenu } from "react-icons/md";
+import logo from "../images/STUDENT_HUB_LOGO.png"
 
 // Define NavBar component
 const NavBar = () => {
@@ -9,6 +10,7 @@ const NavBar = () => {
     { name: "ABOUT", link: "/about" },
     { name: "CONTACT", link: "/contact" },
   ];
+
 
   // Declare a state variable to track nav visibility for smaller screen
   let [navIsVisible, setNavIsVisible] = useState(false);
@@ -24,8 +26,7 @@ const NavBar = () => {
     <div className="shadow-md w-full fixed top-0 left-0">
       <div className="md:flex items-center justify-between bg-pink-600 py-4 md:px-10 px-7">
         <div className="font-bold text-2xl cursor-pointer flex items-center text-white">
-          <img src="client/src/images/STUDENT HUB.png" alt="STUDENT HUB" className="w-[35px]" />
-          
+          <img src={logo}  className="w-[150px]" />
         </div>
 
         <div className="text-3xl absolute right-8 top-5 text-white cursor-pointer md:hidden">
@@ -58,3 +59,4 @@ const NavBar = () => {
 };
 
 export default NavBar;
+
