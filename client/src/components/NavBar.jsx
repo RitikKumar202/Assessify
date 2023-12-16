@@ -24,8 +24,8 @@ const NavBar = () => {
     <div className="shadow-md w-full fixed top-0 left-0">
       <div className="md:flex items-center justify-between bg-pink-600 py-4 md:px-10 px-7">
         <div className="font-bold text-2xl cursor-pointer flex items-center text-white">
-          <img src="" alt="SHARPE>AI" className="w-[35px]" />
-          <span className="ml-2">SHARPE.AI</span>
+          <img src="client/src/images/STUDENT HUB.png" alt="STUDENT HUB" className="w-[35px]" />
+          
         </div>
 
         <div className="text-3xl absolute right-8 top-5 text-white cursor-pointer md:hidden">
