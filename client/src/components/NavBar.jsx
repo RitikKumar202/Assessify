@@ -37,6 +37,7 @@ const NavBar = () => {
           )}
         </div>
 
+
         <ul
           className={`md:flex md:items-center md:pb-0 pb-[10px] absolute md:static bg-pink-600 md:bg-transparent md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${
             navIsVisible ? "top-[69px] " : "top-[-490px]"
