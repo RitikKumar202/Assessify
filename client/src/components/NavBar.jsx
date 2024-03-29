@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { MdClose, MdMenu } from "react-icons/md";
-import logo from "../images/STUDENT_HUB_LOGO.png"
+import {
+  Logo
+} from "../utils/ImageUtils";
 
 // Define NavBar component
 const NavBar = () => {
@@ -26,7 +28,7 @@ const NavBar = () => {
     <div className="shadow-md w-full fixed top-0 left-0">
       <div className="md:flex items-center justify-between bg-pink-600 py-4 md:px-10 px-7">
         <div className="font-bold text-2xl cursor-pointer flex items-center text-white">
-          <img src={logo}  className="w-[150px]" />
+          <img src={Logo} className="w-[150px]" alt="Student Hub" />
         </div>
 
         <div className="text-3xl absolute right-8 top-5 text-white cursor-pointer md:hidden">
@@ -39,9 +41,8 @@ const NavBar = () => {
 
 
         <ul
-          className={`md:flex md:items-center md:pb-0 pb-[10px] absolute md:static bg-pink-600 md:bg-transparent md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${
-            navIsVisible ? "top-[69px] " : "top-[-490px]"
-          }`}
+          className={`md:flex md:items-center md:pb-0 pb-[10px] absolute md:static bg-pink-600 md:bg-transparent md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${navIsVisible ? "top-[69px] " : "top-[-490px]"
+            }`}
         >
           {Links.map((link) => (
             <li key={link.name} className="md:ml-8 text-xl md:my-0 my-7">
