@@ -1,13 +1,11 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import NavBar from "./components/NavBar";
+import { Routes, Route } from "react-router-dom";
+import Register from "./pages/register/Register";
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <NavBar />
-      </BrowserRouter>
-    </>
+    <Routes>
+      <Route path="/register" element={<Register />} />
+    </Routes>
   );
 }
 
