@@ -1,0 +1,10 @@
+.nav-item {
+    display: flex !important;
+    gap: 10px;
+    justify-content: start;
+    align-items: center;
+}
+
+.nav-item span {
+    font-size: 25px;
+}

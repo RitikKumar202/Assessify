@@ -1,5 +1,9 @@
-import Logo from "../assets/STUDENT_HUB_LOGO.png";
+import Hero from "../assets/hero-image.jpg";
+import Use1 from "../assets/use1.svg";
+import Use2 from "../assets/use2.svg";
 
 export {
-    Logo
+    Hero,
+    Use1,
+    Use2
 }
