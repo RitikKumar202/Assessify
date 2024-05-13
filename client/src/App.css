@@ -8,3 +8,11 @@
 .nav-item span {
     font-size: 25px;
 }
+
+.card-border-1 {
+    border: 1px solid #4545dd !important;
+}
+
+.card-border-2 {
+    border: 1px solid #dd4545 !important;
+}
