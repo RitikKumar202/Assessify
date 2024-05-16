@@ -22,7 +22,7 @@ const Home = () => {
         <div className='my-5'>
             <div className='flex justify-center gap-4 px-3'>
                 <div className='w-[550px] flex flex-col items-center justify-center'>
-                    <div>
+                    <div className='text-center'>
                         <h2>Online Examination Platform</h2>
                     </div>
                     <div className='text-center'>
