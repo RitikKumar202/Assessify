@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
-import { Card, CardBody, Label, Form, FormGroup, Input, Modal, ModalHeader, ModalBody, Button, Col, CardDeck, CardText, CardHeader, FormFeedback } from 'reactstrap';
-// import { adminRegistration, userRegistration } from '../redux/ActionCreators/RegisterActions';
-// import { loginUser } from '../redux/ActionCreators/LoginActions';
-// import { baseUrl } from '../shared/baseUrl';
+import { connect } from 'react-redux';
+import { Label, Form, FormGroup, Input, Modal, ModalHeader, ModalBody, Button, Col, FormFeedback } from 'reactstrap';
+import { adminRegistration, userRegistration } from '../redux/ActionCreators/RegisterActions';
+import { loginUser } from '../redux/ActionCreators/LoginActions';
+import { baseUrl } from '../shared/baseUrl';
 
-// const mapDispatchToProps = (dispatch) => ({
-//     adminRegistration: (user) => dispatch(adminRegistration(user)),
-//     userRegistration: (user) => dispatch(userRegistration(user)),
-//     loginUser: (creds) => dispatch(loginUser(creds))
-// });
+const mapDispatchToProps = (dispatch) => ({
+    adminRegistration: (user) => dispatch(adminRegistration(user)),
+    userRegistration: (user) => dispatch(userRegistration(user)),
+    loginUser: (creds) => dispatch(loginUser(creds))
+});
 
 class Register extends Component {
     state = {
@@ -47,163 +47,164 @@ class Register extends Component {
         });
     };
 
-    // handleInputChange = (event) => {
-    //     const { target } = event;
-    //     const value = target.type === 'checkbox' ? target.checked : target.value;
-    //     const { name } = target;
+    handleInputChange = (event) => {
+        const { target } = event;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const { name } = target;
 
-    //     this.setState({
-    //         [name]: value
-    //     });
-    // };
+        this.setState({
+            [name]: value
+        });
+    };
 
-    // handleBlur = (field) => (evt) => {
-    //     this.setState({
-    //         touched: { ...this.state.touched, [field]: true }
-    //     });
-    // };
+    handleBlur = (field) => (evt) => {
+        this.setState({
+            touched: { ...this.state.touched, [field]: true }
+        });
+    };
 
-    // handleSubmitAdmins = (event) => {
-    //     event.preventDefault();
+    handleSubmitAdmins = (event) => {
+        event.preventDefault();
 
-    //     const { username, firstname, lastname, organisation, email, password } = this.state;
+        const { username, firstname, lastname, organisation, email, password } = this.state;
 
-    //     const user = {
-    //         username,
-    //         firstname,
-    //         lastname,
-    //         organisation,
-    //         password,
-    //         email
-    //     };
+        const user = {
+            username,
+            firstname,
+            lastname,
+            organisation,
+            password,
+            email
+        };
 
-    //     fetch(baseUrl + 'register/admins', {
-    //         method: 'POST',
-    //         body: JSON.stringify(user),
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         credentials: 'same-origin'
-    //     })
-    //         .then(response => {
-    //             if (response.ok) {
-    //                 return response;
-    //             } else {
-    //                 var error = new Error('Error ' + response.status + ': ' + response.statusText);
-    //                 error.response = response;
-    //                 throw error;
-    //             }
-    //         }, error => {
-    //             var errmess = new Error(error.message);
-    //             throw errmess;
-    //         })
-    //         .then(response => response.json())
-    //         .then(response => {
-    //             alert('Your Registration is Successful, Sign in to the New Account Using Username and Password!');
-    //             const creds = {
-    //                 username: user.username,
-    //                 password: user.password,
-    //                 userType: 'admins'
-    //             };
-    //             this.props.loginUser(creds);
-    //             this.toggleModal2();
-    //             this.props.history.push('/');
-    //         })
-    //         .catch(error => {
-    //             console.log('Admin Registration ', error.message);
-    //             alert('This username is already taken');
-    //         });
-    // };
+        fetch(baseUrl + 'register/admins', {
+            method: 'POST',
+            body: JSON.stringify(user),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin'
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response;
+                } else {
+                    var error = new Error('Error ' + response.status + ': ' + response.statusText);
+                    error.response = response;
+                    throw error;
+                }
+            }, error => {
+                var errmess = new Error(error.message);
+                throw errmess;
+            })
+            .then(response => response.json())
+            .then(response => {
+                alert('Your Registration is Successful, Sign in to the New Account Using Username and Password!');
+                const creds = {
+                    username: user.username,
+                    password: user.password,
+                    userType: 'admins'
+                };
+                this.props.loginUser(creds);
+                this.toggleModal2();
+                this.props.history.push('/');
+            })
+            .catch(error => {
+                console.log('Admin Registration ', error.message);
+                alert('This username is already taken');
+            });
+    };
 
-    // handleSubmitUsers = (event) => {
-    //     event.preventDefault();
+    handleSubmitUsers = (event) => {
+        event.preventDefault();
 
-    //     const { username, firstname, lastname, email, password } = this.state;
+        const { username, firstname, lastname, email, password } = this.state;
 
-    //     const user = {
-    //         username,
-    //         firstname,
-    //         lastname,
-    //         password,
-    //         email
-    //     };
+        const user = {
+            username,
+            firstname,
+            lastname,
+            password,
+            email
+        };
 
-    //     fetch(baseUrl + 'register/users', {
-    //         method: 'POST',
-    //         body: JSON.stringify(user),
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         credentials: 'same-origin'
-    //     })
-    //         .then(response => {
-    //             if (response.ok) {
-    //                 return response;
-    //             } else {
-    //                 var error = new Error('Error ' + response.status + ': ' + response.statusText);
-    //                 error.response = response;
-    //                 throw error;
-    //             }
-    //         }, error => {
-    //             var errmess = new Error(error.message);
-    //             throw errmess;
-    //         })
-    //         .then(response => response.json())
-    //         .then(response => {
-    //             alert('Your Registration is Successful, Sign in to the New Account Using Username and Password!');
-    //             const creds = {
-    //                 username: user.username,
-    //                 password: user.password,
-    //                 userType: 'users'
-    //             };
-    //             this.props.loginUser(creds);
-    //             this.toggleModal1();
-    //             this.props.history.push('/');
-    //         })
-    //         .catch(error => {
-    //             console.log('User Registration ', error.message);
-    //             alert('This username is already taken');
-    //         });
-    // };
+        fetch(baseUrl + 'register/users', {
+            method: 'POST',
+            body: JSON.stringify(user),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin'
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response;
+                } else {
+                    var error = new Error('Error ' + response.status + ': ' + response.statusText);
+                    error.response = response;
+                    throw error;
+                }
+            }, error => {
+                var errmess = new Error(error.message);
+                throw errmess;
+            })
+            .then(response => response.json())
+            .then(response => {
+                alert('Your Registration is Successful, Sign in to the New Account Using Username and Password!');
+                const creds = {
+                    username: user.username,
+                    password: user.password,
+                    userType: 'users'
+                };
+                this.props.loginUser(creds);
+                this.toggleModal1();
+                this.props.history.push('/');
+            })
+            .catch(error => {
+                console.log('User Registration ', error.message);
+                alert('This username is already taken');
+            });
+    };
 
-    // validate = (username, firstname, lastname, organisation, password, email) => {
-    //     const errors = {
-    //         username: '',
-    //         firstname: '',
-    //         lastname: '',
-    //         organisation: '',
-    //         password: '',
-    //         email: ''
-    //     };
+    validate = (username, firstname, lastname, organisation, password, email) => {
+        const errors = {
+            username: '',
+            firstname: '',
+            lastname: '',
+            organisation: '',
+            password: '',
+            email: ''
+        };
 
-    //     if (this.state.touched.username && username.length < 5)
-    //         errors.username = 'User Name should be >= 5 characters';
-    //     else if (this.state.touched.username && username.length > 15)
-    //         errors.username = 'User Name should be <= 15 characters';
+        if (this.state.touched.username && (username.length < 5 || username.length > 15))
+            errors.username = 'User Name should be between 5 and 15 characters';
 
-    //     if (this.state.touched.firstname && firstname.length < 3)
-    //         errors.firstname = 'First Name should be >= 3 characters';
+        if (this.state.touched.firstname && firstname.length < 3)
+            errors.firstname = 'First Name should be >= 3 characters';
 
-    //     if (this.state.touched.lastname && lastname.length < 3)
-    //         errors.lastname = 'Last Name should be >= 3 characters';
-    //     else if (this.state.touched.lastname && lastname.length > 10)
-    //         errors.lastname = 'Last Name should be <= 10 characters';
+        if (this.state.touched.lastname && (lastname.length < 3 || lastname.length > 10))
+            errors.lastname = 'Last Name should be between 3 and 10 characters';
 
-    //     if (this.state.touched.organisation && organisation.length < 3)
-    //         errors.organisation = 'Organisation Name should be >= 3 characters';
+        if (this.state.touched.organisation && organisation.length < 3)
+            errors.organisation = 'Organisation Name should be >= 3 characters';
 
-    //     if (this.state.touched.password && password.length < 8)
-    //         errors.password = 'Password should be >= 8 characters';
+        if (this.state.touched.password && password.length < 8)
+            errors.password = 'Password should be >= 8 characters';
 
-    //     if (this.state.touched.email && email.split('').filter(x => x === '@').length !== 1)
-    //         errors.email = 'Email should contain a @';
+        // Improved email validation using regex
+        if (this.state.touched.email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email))
+                errors.email = 'Email is invalid';
+        }
 
-    //     return errors;
-    // };
+        return errors;
+    };
+
 
     render() {
         const { username, firstname, lastname, organisation, password, email, touched } = this.state;
-        // const errors = this.validate(username, firstname, lastname, organisation, password, email);
+        const errors = this.validate(username, firstname, lastname, organisation, password, email);
 
         return (
             <div className="container">
@@ -239,12 +240,12 @@ class Register extends Component {
                                     <Input type="text" id="username" name="username"
                                         placeholder="User Name"
                                         value={username}
-                                    // valid={errors.username === ''}
-                                    // invalid={errors.username !== ''}
-                                    // onBlur={this.handleBlur('username')}
-                                    // onChange={this.handleInputChange}
+                                        valid={errors.username === ''}
+                                        invalid={errors.username !== ''}
+                                        onBlur={this.handleBlur('username')}
+                                        onChange={this.handleInputChange}
                                     />
-                                    {/* <FormFeedback>{errors.username}</FormFeedback> */}
+                                    <FormFeedback>{errors.username}</FormFeedback>
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
@@ -252,23 +253,23 @@ class Register extends Component {
                                     <Input type="text" id="firstname" name="firstname"
                                         placeholder="First Name"
                                         value={firstname}
-                                    // valid={errors.firstname === ''}
-                                    // invalid={errors.firstname !== ''}
-                                    // onBlur={this.handleBlur('firstname')}
-                                    // onChange={this.handleInputChange}
+                                        valid={errors.firstname === ''}
+                                        invalid={errors.firstname !== ''}
+                                        onBlur={this.handleBlur('firstname')}
+                                        onChange={this.handleInputChange}
                                     />
-                                    {/* <FormFeedback>{errors.firstname}</FormFeedback> */}
+                                    <FormFeedback>{errors.firstname}</FormFeedback>
                                 </Col>
                                 <Col md={5}>
                                     <Input type="text" id="lastname" name="lastname"
                                         placeholder="Last Name"
                                         value={lastname}
-                                    // valid={errors.lastname === ''}
-                                    // invalid={errors.lastname !== ''}
-                                    // onBlur={this.handleBlur('lastname')}
-                                    // onChange={this.handleInputChange} 
+                                        valid={errors.lastname === ''}
+                                        invalid={errors.lastname !== ''}
+                                        onBlur={this.handleBlur('lastname')}
+                                        onChange={this.handleInputChange}
                                     />
-                                    {/* <FormFeedback>{errors.lastname}</FormFeedback> */}
+                                    <FormFeedback>{errors.lastname}</FormFeedback>
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
@@ -276,12 +277,12 @@ class Register extends Component {
                                     <Input type="email" id="email" name="email"
                                         placeholder="Email"
                                         value={email}
-                                    // valid={errors.email === ''}
-                                    // invalid={errors.email !== ''}
-                                    // onBlur={this.handleBlur('email')}
-                                    // onChange={this.handleInputChange} 
+                                        valid={errors.email === ''}
+                                        invalid={errors.email !== ''}
+                                        onBlur={this.handleBlur('email')}
+                                        onChange={this.handleInputChange}
                                     />
-                                    {/* <FormFeedback>{errors.email}</FormFeedback> */}
+                                    <FormFeedback>{errors.email}</FormFeedback>
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
@@ -289,12 +290,12 @@ class Register extends Component {
                                     <Input type="password" id="password" name="password"
                                         placeholder="Password"
                                         value={password}
-                                    // valid={errors.password === ''}
-                                    // invalid={errors.password !== ''}
-                                    // onBlur={this.handleBlur('password')}
-                                    // onChange={this.handleInputChange}
+                                        valid={errors.password === ''}
+                                        invalid={errors.password !== ''}
+                                        onBlur={this.handleBlur('password')}
+                                        onChange={this.handleInputChange}
                                     />
-                                    {/* <FormFeedback>{errors.password}</FormFeedback> */}
+                                    <FormFeedback>{errors.password}</FormFeedback>
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
@@ -317,12 +318,12 @@ class Register extends Component {
                                     <Input type="text" id="username" name="username"
                                         placeholder="User Name"
                                         value={username}
-                                    // valid={errors.username === ''}
-                                    // invalid={errors.username !== ''}
-                                    // onBlur={this.handleBlur('username')}
-                                    // onChange={this.handleInputChange} 
+                                        valid={errors.username === ''}
+                                        invalid={errors.username !== ''}
+                                        onBlur={this.handleBlur('username')}
+                                        onChange={this.handleInputChange}
                                     />
-                                    {/* <FormFeedback>{errors.username}</FormFeedback> */}
+                                    <FormFeedback>{errors.username}</FormFeedback>
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
@@ -330,23 +331,23 @@ class Register extends Component {
                                     <Input type="text" id="firstname" name="firstname"
                                         placeholder="First Name"
                                         value={firstname}
-                                    // valid={errors.firstname === ''}
-                                    // invalid={errors.firstname !== ''}
-                                    // onBlur={this.handleBlur('firstname')}
-                                    // onChange={this.handleInputChange} 
+                                        valid={errors.firstname === ''}
+                                        invalid={errors.firstname !== ''}
+                                        onBlur={this.handleBlur('firstname')}
+                                        onChange={this.handleInputChange}
                                     />
-                                    {/* <FormFeedback>{errors.firstname}</FormFeedback> */}
+                                    <FormFeedback>{errors.firstname}</FormFeedback>
                                 </Col>
                                 <Col md={5}>
                                     <Input type="text" id="lastname" name="lastname"
                                         placeholder="Last Name"
                                         value={lastname}
-                                    // valid={errors.lastname === ''}
-                                    // invalid={errors.lastname !== ''}
-                                    // onBlur={this.handleBlur('lastname')}
-                                    // onChange={this.handleInputChange}
+                                        valid={errors.lastname === ''}
+                                        invalid={errors.lastname !== ''}
+                                        onBlur={this.handleBlur('lastname')}
+                                        onChange={this.handleInputChange}
                                     />
-                                    {/* <FormFeedback>{errors.lastname}</FormFeedback> */}
+                                    <FormFeedback>{errors.lastname}</FormFeedback>
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
@@ -354,12 +355,12 @@ class Register extends Component {
                                     <Input type="organisation" id="organisation" name="organisation"
                                         placeholder="Organisation"
                                         value={organisation}
-                                    // valid={errors.organisation === ''}
-                                    // invalid={errors.organisation !== ''}
-                                    // onBlur={this.handleBlur('organisation')}
-                                    // onChange={this.handleInputChange} 
+                                        valid={errors.organisation === ''}
+                                        invalid={errors.organisation !== ''}
+                                        onBlur={this.handleBlur('organisation')}
+                                        onChange={this.handleInputChange}
                                     />
-                                    {/* <FormFeedback>{errors.organisation}</FormFeedback> */}
+                                    <FormFeedback>{errors.organisation}</FormFeedback>
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
@@ -367,12 +368,12 @@ class Register extends Component {
                                     <Input type="email" id="email" name="email"
                                         placeholder="Email"
                                         value={email}
-                                    // valid={errors.email === ''}
-                                    // invalid={errors.email !== ''}
-                                    // onBlur={this.handleBlur('email')}
-                                    // onChange={this.handleInputChange}
+                                        valid={errors.email === ''}
+                                        invalid={errors.email !== ''}
+                                        onBlur={this.handleBlur('email')}
+                                        onChange={this.handleInputChange}
                                     />
-                                    {/* <FormFeedback>{errors.email}</FormFeedback> */}
+                                    <FormFeedback>{errors.email}</FormFeedback>
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
@@ -380,12 +381,12 @@ class Register extends Component {
                                     <Input type="password" id="password" name="password"
                                         placeholder="Password"
                                         value={password}
-                                    // valid={errors.password === ''}
-                                    // invalid={errors.password !== ''}
-                                    // onBlur={this.handleBlur('password')}
-                                    // onChange={this.handleInputChange}
+                                        valid={errors.password === ''}
+                                        invalid={errors.password !== ''}
+                                        onBlur={this.handleBlur('password')}
+                                        onChange={this.handleInputChange}
                                     />
-                                    {/* <FormFeedback>{errors.password}</FormFeedback> */}
+                                    <FormFeedback>{errors.password}</FormFeedback>
                                 </Col>
                             </FormGroup>
                             <FormGroup check>
@@ -393,7 +394,7 @@ class Register extends Component {
                                     <Input type="checkbox"
                                         name="agree"
                                         checked={this.state.agree}
-                                    // onChange={this.handleInputChange}
+                                        onChange={this.handleInputChange}
                                     /> {' '}
                                     <strong>I accept all the terms & conditions of QUIZ TIME.</strong>
                                 </Label>
@@ -411,4 +412,4 @@ class Register extends Component {
     }
 }
 
-export default Register;
+export default connect(null, mapDispatchToProps)(Register);

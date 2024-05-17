@@ -3,13 +3,23 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Button } from 'reactstrap';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import { IoHome, IoInformationCircle, IoHelpCircle } from "react-icons/io5";
+import { IoHome, IoInformationCircle, IoHelpCircle, IoBarChartSharp } from "react-icons/io5";
 import { BiSolidContact } from "react-icons/bi";
+import { CgProfile } from "react-icons/cg";
 import { Link } from 'react-router-dom';
+import { logoutUser } from '../redux/ActionCreators/LoginActions';
+import { connect } from 'react-redux';
 
-function Header() {
+const mapStateToProps = (state) => ({
+    authenticated: state.auth,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    logoutUser: () => dispatch(logoutUser()),
+});
+
+const Header = ({ authenticated, logoutUser }) => {
     const [showOffcanvas, setShowOffcanvas] = useState(false);
 
     const handleLoginClick = () => {
@@ -38,24 +48,44 @@ function Header() {
                             </Offcanvas.Header>
                             <Offcanvas.Body>
                                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                                    <Nav.Link href='/' className='nav-item'>
-                                        <span><IoHome /></span>Home
-                                    </Nav.Link>
-                                    <Nav.Link href="#action2" className='nav-item'>
-                                        <span><IoInformationCircle /></span>About Us
-                                    </Nav.Link>
-                                    <Nav.Link href="#action2" className='nav-item'>
-                                        <span><IoHelpCircle /></span>Help
-                                    </Nav.Link>
-                                    <Nav.Link href="#action2" className='nav-item'>
-                                        <span><BiSolidContact /></span>Contact Us
-                                    </Nav.Link>
+                                    {authenticated.isAuthenticated ?
+                                        <>
+                                            <Nav.Link href='/' className='nav-item'>
+                                                <span><IoHome /></span>Groups
+                                            </Nav.Link>
+                                            <Nav.Link href="#action2" className='nav-item'>
+                                                <span><IoBarChartSharp /></span>Results
+                                            </Nav.Link>
+                                            <Nav.Link href="/profile" className='nav-item'>
+                                                <span><CgProfile /></span>Profile
+                                            </Nav.Link>
+                                        </> :
+                                        <>
+                                            <Nav.Link href='/' className='nav-item'>
+                                                <span><IoHome /></span>Home
+                                            </Nav.Link>
+                                            <Nav.Link href="#action2" className='nav-item'>
+                                                <span><IoInformationCircle /></span>About Us
+                                            </Nav.Link>
+                                            <Nav.Link href="#action2" className='nav-item'>
+                                                <span><IoHelpCircle /></span>Help
+                                            </Nav.Link>
+                                            <Nav.Link href="#action2" className='nav-item'>
+                                                <span><BiSolidContact /></span>Contact Us
+                                            </Nav.Link>
+                                        </>
+                                    }
                                     <div className='mt-3'>
-                                        <Link to="/login">
-                                            <Button className='w-full' onClick={handleLoginClick}>
-                                                Login
-                                            </Button>
-                                        </Link>
+                                        {authenticated.isAuthenticated ?
+                                            <Button className='w-full logOut-btn' onClick={logoutUser}>
+                                                Log Out
+                                            </Button> :
+                                            <Link to="/login">
+                                                <Button className='w-full' onClick={handleLoginClick}>
+                                                    Login
+                                                </Button>
+                                            </Link>
+                                        }
                                     </div>
                                 </Nav>
                             </Offcanvas.Body>
@@ -67,4 +97,4 @@ function Header() {
     );
 }
 
-export default Header;
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

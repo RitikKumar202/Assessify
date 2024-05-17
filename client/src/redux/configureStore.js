@@ -1,21 +1,21 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
+import { legacy_createStore as createStore, combineReducers, applyMiddleware } from 'redux';
+import { Test, Tests } from './TestAction';
+import { Auth } from './auth';
+import { Groups } from './groups';
+import { thunk } from 'redux-thunk';
 import logger from 'redux-logger';
-import { Tests, Test } from './reducers/testReducer';
-import { Auth } from './reducers/authReducer';
-import { Groups } from './reducers/groupsReducer';
 
-const rootReducer = combineReducers({
-    tests: Tests,
-    auth: Auth,
-    test: Test,
-    groups: Groups
-});
+export const ConfigureStore = () => {
+    const store = createStore(
+        combineReducers({
+            tests: Tests,
+            auth: Auth,
+            test: Test,
+            groups: Groups
 
-const middleware = [thunk, logger]; // Add more middleware as needed
+        }),
+        applyMiddleware(thunk, logger)
+    );
 
-const configureStore = () => {
-    return createStore(rootReducer, applyMiddleware(...middleware));
-};
-
-export default configureStore;
+    return store;
+}

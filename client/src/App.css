@@ -6,7 +6,7 @@
 }
 
 .nav-item span {
-    font-size: 25px;
+    font-size: 22px;
 }
 
 .card-border-1 {
@@ -15,4 +15,9 @@
 
 .card-border-2 {
     border: 1px solid #dd4545 !important;
+}
+
+.logOut-btn {
+    background: #dd4545 !important;
+    border: none !important;
 }
