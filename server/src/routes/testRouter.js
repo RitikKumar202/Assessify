@@ -2,172 +2,263 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const fs = require('fs').promises;
-const path = require('path');
+const fs = require('fs')
+const path = require('path')
 
 const Groups = require('../models/group');
+const Users = require('../models/user');
+const Admins = require('../models/admin');
 const Tests = require('../models/test');
-const authenticate = require('../authenticate');
 
+
+const connect = mongoose.connect(process.env.mongoURL, { useNewUrlParser: true, useUnifiedTopology: true });
 const testRouter = express.Router();
+const authenticate = require('../authenticate');
+const admin = require('../models/admin');
+const { initialize } = require('passport');
 
 testRouter.use(bodyParser.json());
 testRouter.use(cors());
 
-mongoose.connect(process.env.mongoURL, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log("Connected correctly to server"))
-    .catch(err => console.log(`Connection error: ${err}`));
+connect.then((db) => {
+    console.log("Connected correctly to server");
+    // console.log(path.join(__dirname,'/../../test.pdf'))
 
-testRouter.get('/:groupid/start/:testid', authenticate.verifyUser, async (req, res, next) => {
-    try {
-        const group = await Groups.findById(req.params.groupid);
-        const student = group.members.find(member => String(member.userID) === String(req.user._id));
 
-        if (!student) {
-            return res.status(403).json({ message: "You are not authorized to start this test." });
-        }
+    // Router to start exam and initialize attendance
+    testRouter.route('/:groupid/start/:testid')
+        .get(authenticate.verifyUser, (req, res, next) => {
+            // console.log(req);
+            var message, response, temp
+            Groups.findById(req.params.groupid).then(async group => {
+                var check = 0
+                console.log(group);
+                for (var i = 0; i < group.members.length; i++) {
+                    var students = group.members[i]
+                    console.log(students);
+                    //console.log(`${students.userID}`==req.user._id)
+                    if (`${students.userID}` == req.user._id) {
+                        var student = {
+                            name: students.name,
+                            uniqueID: students.uniqueID,
+                            userID: students.userID,
+                            answers: [],
+                            marks: 0,
+                            negativeMarks: 0,
+                            positiveMarks: 0
+                        }
+                        temp = await Tests.findById(req.params.testid).then(async test => {
+                            var remainingTime = (test.startDate.getTime() + (test.duration * 60000))
+                            if (test.startDate > Date.now()) {
+                                response = {
+                                    totalNumberOfQuestions: 0,
+                                    remainingTime: Date.now(),
+                                    message: "Not started yet"
+                                }
+                            }
+                            else if (Date.now() >= remainingTime) {
+                                response = {
+                                    totalNumberOfQuestions: 0,
+                                    remainingTime: Date.now(),
+                                    message: "Test already ended"
+                                }
+                            }
+                            else {
+                                var check = 0
+                                for (var j = 0; j < test.studentMarks.length; j++) {
+                                    if (`${test.studentMarks[j].userID}` == req.user._id) {
+                                        check++;
+                                    }
+                                }
+                                if (check) {
+                                    response = {
+                                        totalNumberOfQuestions: 0,
+                                        remainingTime: Date.now(),
+                                        message: "Test already attempted once"
+                                    }
+                                }
+                                else {
+                                    console.log("Run")
+                                    var NoOfQuestions;
+                                    NoOfQuestions = test.totalQuestions
 
-        const test = await Tests.findById(req.params.testid);
-        const remainingTime = test.startDate.getTime() + (test.duration * 60000);
+                                    if (test.questions.length) {
+                                        NoOfQuestions = test.questions.length
+                                    }
+                                    console.log(NoOfQuestions)
+                                    for (var j = 1; j <= NoOfQuestions; j++) {
+                                        student.answers.push({ questionNo: j })
+                                    }
+                                    if (test.testType === '1') {
+                                        student.isEvaluated = true
+                                    }
 
-        let response;
-
-        if (test.startDate > Date.now()) {
-            response = { totalNumberOfQuestions: 0, remainingTime: Date.now(), message: "Not started yet" };
-        } else if (Date.now() >= remainingTime) {
-            response = { totalNumberOfQuestions: 0, remainingTime: Date.now(), message: "Test already ended" };
-        } else if (test.studentMarks.some(mark => String(mark.userID) === String(req.user._id))) {
-            response = { totalNumberOfQuestions: 0, remainingTime: Date.now(), message: "Test already attempted once" };
-        } else {
-            const NoOfQuestions = test.questions.length || test.totalQuestions;
-
-            student.answers = Array.from({ length: NoOfQuestions }, (_, index) => ({ questionNo: index + 1 }));
-            if (test.testType === '1') {
-                student.isEvaluated = true;
-            }
-
-            await Tests.updateOne({ _id: req.params.testid }, { $addToSet: { studentMarks: student } });
-
-            response = { totalNumberOfQuestions: NoOfQuestions, isQuestionInPDF: test.isQuestionInPDF, remainingTime, message: '' };
-        }
-
-        res.status(200).json(response);
-    } catch (error) {
-        next(error);
-    }
-});
-
-testRouter.get('/:testId/testPaper', authenticate.verifyUser, async (req, res, next) => {
-    try {
-        const test = await Tests.findById(req.params.testId);
-        if (test.isQuestionInPDF) {
-            const filename = `static/${req.params.testId}.pdf`;
-            res.sendFile(path.join(__dirname, `/../../${filename}`));
-        } else {
-            res.status(200).json({ questions: test.questions });
-        }
-    } catch (error) {
-        next(error);
-    }
-});
-
-testRouter.get('/:testid/:qno', authenticate.verifyUser, async (req, res, next) => {
-    try {
-        const test = await Tests.findById(req.params.testid);
-        const question = test.questions[req.params.qno];
-
-        if (question) {
-            const formattedQuestion = {
-                number: question.questionNo,
-                questionType: question.questionType,
-                question: question.question,
-                marks: question.marks
-            };
-
-            if (question.questionType === '1') {
-                formattedQuestion.A = question.A;
-                formattedQuestion.B = question.B;
-                formattedQuestion.C = question.C;
-                formattedQuestion.D = question.D;
-            }
-
-            res.status(200).json(formattedQuestion);
-        } else {
-            res.status(200).json("Completed !!!");
-        }
-    } catch (error) {
-        next(error);
-    }
-});
-
-testRouter.post('/:testId/uploadAssignment', authenticate.verifyUser, async (req, res, next) => {
-    try {
-        const test = await Tests.findById(req.params.testId);
-        const fileData = req.files.file.data;
-        const filename = `static/${req.user._id}_${req.params.testId}.pdf`;
-
-        await fs.writeFile(filename, fileData);
-
-        const studentMarkIndex = test.studentMarks.findIndex(mark => String(mark.userID) === String(req.user._id));
-        if (studentMarkIndex !== -1) {
-            await Tests.updateOne({ _id: req.params.testId, 'studentMarks.userID': req.user._id }, { $set: { 'studentMarks.$.file': filename } });
-            res.status(200).json('Response added successfully');
-        } else {
-            throw new Error("Student mark not found for the given test ID and user ID.");
-        }
-    } catch (error) {
-        next(error);
-    }
-});
-
-testRouter.post('/:testid/next/:qno', authenticate.verifyUser, async (req, res, next) => {
-    try {
-        const response = req.body.ans;
-        const test = await Tests.findById(req.params.testid);
-        const student = test.studentMarks.find(mark => String(mark.userID) === String(req.user._id));
-
-        if (!student) {
-            return res.status(403).json({ message: "You are not authorized to submit answers for this test." });
-        }
-
-        if (req.params.qno > 1) {
-            const questionIndex = req.params.qno - 1;
-            const obj = {
-                questionNo: req.params.qno - 1,
-                markedAns: response
-            };
-
-            if (student.answers[questionIndex].markedAns !== obj.markedAns) {
-                student.answers[questionIndex].markedAns = obj.markedAns;
-
-                if (test.questions[questionIndex].questionType === '1') {
-                    const question = test.questions[questionIndex];
-
-                    if (response === question.ans) {
-                        student.answers[questionIndex].marks = question.marks;
-                        student.marks += question.marks;
-                        student.positiveMarks += question.marks;
-                    } else if (test.negative) {
-                        const negP = Number(test.negPercentage) / 100;
-                        const negMarks = negP * Number(question.marks);
-                        student.answers[questionIndex].marks = -1 * negMarks;
-                        student.marks -= negMarks;
-                        student.negativeMarks += negMarks;
+                                    await Tests.updateOne(
+                                        { _id: req.params.testid },
+                                        {
+                                            $addToSet: { studentMarks: student }
+                                        },
+                                        (err, result) => {
+                                            console.log(`Error : ${err}`, '\n', `Result : Attendance made ${req.user._id}`)
+                                        })
+                                    response = {
+                                        totalNumberOfQuestions: test.questions.length,
+                                        isQuestionInPDF: test.isQuestionInPDF,
+                                        remainingTime: remainingTime,
+                                        message: ''
+                                    }
+                                }
+                            }
+                            return response
+                        })
+                        break
                     }
+                    // console.log(temp)
+                }
+                res.status(200).json(temp)
+            })
+        })
+
+    testRouter.route('/:testId/testPaper')
+        .get(authenticate.verifyUser, (req, res, next) => {
+            Tests.findById(req.params.testId).then(test => {
+                if (test.isQuestionInPDF) {
+                    var filename = `static/${req.params.testId}.pdf`;
+                    console.log((path.join(__dirname, `/../../${filename}`)));
+                    res.sendFile(path.join(__dirname, `/../../${filename}`))
+                }
+                else {
+                    var response = {
+                        questions: test.questions
+                    }
+                    res.status(200).send(response)
+                }
+            })
+        })
+
+    testRouter.route('/:testid/:qno')
+        .get((req, res, next) => {
+            Tests.findById(req.params.testid).then(test => {
+                if (test.questions[req.params.qno]) {
+                    var question = {
+                        number: test.questions[req.params.qno].questionNo,
+                        questionType: test.questions[req.params.qno].questionType,
+                        question: test.questions[req.params.qno].question,
+                        marks: test.questions[req.params.qno].marks
+                    }
+                    if (question.questionType === '1') {
+                        question.A = test.questions[req.params.qno].A,
+                            question.B = test.questions[req.params.qno].B,
+                            question.C = test.questions[req.params.qno].C,
+                            question.D = test.questions[req.params.qno].D
+                    }
+
+                    res.status(200).send(question)
+                }
+                else
+                    res.status(200).json("Completed !!!")
+            })
+        })
+
+
+
+
+    testRouter.route('/:testId/uploadAssignment')
+        .post(authenticate.verifyUser, (req, res, next) => {
+            Tests.findById(req.params.testId).then(async test => {
+                var file = req.files.file.data
+                var filename = `static/${req.user._id}_${req.params.testId}.pdf`
+                try {
+                    fs.writeFileSync(filename, file, "buffer");
+                    console.log("The file was saved!");
+                    for (var j = 0; j < test.studentMarks.length; j++) {
+                        if (`${test.studentMarks[j].userID}` == req.user._id) {
+                            // test.studentMarks[j].file = req.files.file.data
+                            Tests.updateOne(
+                                { _id: req.params.testId, 'studentMarks.userID': req.user._id },
+                                {
+                                    $set: {
+                                        'studentMarks.$.file': filename
+                                    }
+                                }
+                            ).then(() => {
+                                console.log(`Result : Response inserted ${req.user._id} + pdf`)
+                                res.status(200).json('Response added successfully')
+                            })
+                                .catch(err => console.log(`Error : ${err}`))
+                        }
+                    }
+                } catch {
+                    console.log(err);
+                    res.statusCode(609);
+                    res.json({ err: err })
                 }
 
-                await Tests.updateOne({ _id: req.params.testid, 'studentMarks.userID': req.user._id }, { $set: { 'studentMarks.$': student } });
-            }
-        }
 
-        if (test.questions.length === req.params.qno - 1) {
-            res.status(200).json({ finished: true, Message: "Test has been successfully completed" });
-        } else {
-            res.redirect(`/tests/${req.params.testid}/${req.params.qno - 1}`);
-        }
-    } catch (error) {
-        next(error);
-    }
+            }, (err) => next(err))
+                .catch((err) => next(err))
+        })
+
+
+    testRouter.route('/:testid/next/:qno')
+        .post(authenticate.verifyUser, (req, res, next) => {
+            var response = req.body.ans;
+            Tests.findById(req.params.testid).then(async test => {
+                if (req.params.qno > 1) {
+                    var index, data
+                    test.studentMarks.map((student, i) => {
+                        if (`${student.userID}` == req.user._id) {
+                            var obj = {
+                                questionNo: req.params.qno - 1,
+                                markedAns: response
+                            }
+                            // console.log(obj);
+                            index = i;
+                            if (student.answers[obj.questionNo - 1].markedAns != obj.markedAns) {
+                                // console.log("Going to update marks")
+                                student.answers[obj.questionNo - 1].markedAns = obj.markedAns;
+                                if (test.questions[req.params.qno - 2].questionType === '1') {
+                                    if (response == test.questions[req.params.qno - 2].ans) {
+                                        student.answers[obj.questionNo - 1].marks = test.questions[req.params.qno - 2].marks
+                                        student.marks += test.questions[req.params.qno - 2].marks
+                                        student.positiveMarks += test.questions[req.params.qno - 2].marks
+                                    }
+                                    else if (test.negative) {
+                                        var negP = Number(test.negPercentage) / 100;
+                                        var negmarks = negP * Number(test.questions[req.params.qno - 2].marks);
+                                        student.answers[obj.questionNo - 1].marks = -1 * negmarks
+                                        student.marks -= negmarks
+                                        student.negativeMarks += negmarks
+
+                                    }
+                                }
+                            }   // data : student
+                            // console.log(student);
+                            Tests.updateOne(
+                                { _id: req.params.testid, 'studentMarks.userID': req.user._id },
+                                {
+                                    $set: {
+                                        'studentMarks.$': student
+                                    }
+                                }
+                            ).then(res => console.log(`Result : Response inserted ${req.user._id} + ${req.params.qno - 1}`))
+                                .catch(err => console.log(`Error : ${err}`))
+                        }
+                    })
+                }
+                if (test.questions.length === (req.params.qno - 1)) {
+
+                    var result = {
+                        finished: true,
+                        Message: "Test has been sucessfully Completed"
+                    }
+                    res.status(200).send(result)
+                }
+                else
+                    res.redirect(`/tests/${req.params.testid}/${req.params.qno - 1}`)
+            })
+        })
 });
+
 
 module.exports = testRouter;

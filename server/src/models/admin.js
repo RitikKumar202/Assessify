@@ -1,16 +1,36 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const passportLocalMongoose = require('passport-local-mongoose');
+var passportLocalMongoose = require('passport-local-mongoose');
 
-const adminSchema = new Schema({
-    firstname: String,
-    lastname: String,
-    termAgree: { type: Boolean, default: true },
-    organisation: String,
-    email: String,
-    groups: [{ type: Schema.Types.ObjectId, ref: 'Group' }],
-}, { timestamps: true });
+const Admin = new Schema({
+    firstname: {
+        type: String,
 
-adminSchema.plugin(passportLocalMongoose);
+    },
+    lastname: {
+        type: String,
+        // required:true
+    },
+    termAgree: {
+        type: Boolean,
+        default: true,
+    },
+    organisation: {
+        type: String,
+        // required:true
+    },
+    email: {
+        type: String,
+        // required:true,
+    },
+    groups: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Group'
+    }],
 
-module.exports = mongoose.model('Admin', adminSchema);
+}, {
+    timestamps: true
+});
+
+Admin.plugin(passportLocalMongoose);
+module.exports = mongoose.model('Admin', Admin);

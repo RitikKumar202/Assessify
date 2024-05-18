@@ -1,14 +1,25 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const passportLocalMongoose = require('passport-local-mongoose');
+var passportLocalMongoose = require('passport-local-mongoose');
 
-const userSchema = new Schema({
-    firstname: String,
-    lastname: String,
-    email: String,
-    groups: [{ type: Schema.Types.ObjectId, ref: 'Group' }],
-}, { timestamps: true });
+const User = new Schema({
+    firstname: {
+        type: String,
+    },
+    lastname: {
+        type: String,
+    },
+    email: {
+        type: String,
+    },
+    groups: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Group'
+    }],
 
-userSchema.plugin(passportLocalMongoose);
+}, {
+    timestamps: true
+});
 
-module.exports = mongoose.model('User', userSchema);
+User.plugin(passportLocalMongoose);
+module.exports = mongoose.model('User', User);

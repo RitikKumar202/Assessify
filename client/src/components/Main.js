@@ -1,15 +1,36 @@
 import React, { Component } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 //Importing all the Components created so far
 
 import Header from './Header';
+// import Footer from './FooterComponent';
 import Home from './Home';
+import Student from './Student';
+import Exam from './Exam';
+import Exam2 from './Exam2.js';
+import Exam3 from './Exam3.js';
 import Register from './Register';
+import Admin from './Admin';
+// import Help from './HelpComponent';
+// import Contact from './ContactUsComponent';
+import CreateTest from './CreateTest';
+import EditTest from './EditTest';
+import GroupDetailAdmin from './GroupDetailAdmin';
+import GroupDetailStudent from './GroupDetailStudent';
 import { adminRegistration, userRegistration } from '../redux/ActionCreators/RegisterActions';
 import { createGroup, fetchGroups, acceptMember, removeReq, removeMem, joinGroup, createTest } from '../redux/ActionCreators/GroupActions.js';
 import Login from './Login';
+import AdminStudentResult from './AdminTestResultStudent';
+import AdminStudentResult2 from './AdminTestResultStudent2';
+import AdminStudentResult3 from './AdminTestResultStudent3';
+import StudentResult from './StudentResult';
+import StudentResult2 from './StudentResult2';
+import StudentResult3 from './StudentResult3';
+import AdminSummary from './AdminSummary';
+import Profile from './Profile';
+import PasswordRecovery from './PasswordRecovery';
 
 //Adding Redux store with Main State
 
@@ -35,7 +56,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
-        localStorage.getItem('token') ? <Component {...props} /> : <Navigate to="/login" />
+        localStorage.getItem('token') ? <Component {...props} /> : <Redirect to="/login" />
     )} />
 )
 
@@ -51,38 +72,74 @@ class Main extends Component {
             if (this.props.auth.isAuthenticated) {
                 if (this.props.auth.isAdmin) {
                     return (
-                        <Navigate to={'/admin'} />
+                        <Redirect to={'/admin'} />
                     );
                 }
                 else {
                     return (
-                        <Navigate to={'/student'} />
+                        <Redirect to={'/student'} />
                     );
                 }
             }
             else {
                 return (
-                    <Navigate to={'/'} />
+                    <Redirect to={'/'} />
                 );
             }
         }
+        // const CreatetestforGroup=({match})=>{
+        //     return(
+        //         <CreateTest groupId={match.params.groupId}/>
+        //     );
+        // }
 
         return (
-            <div className="">
+            <div className="Body">
                 <>
                     <Header authenticated={this.props.auth} />
 
                     {/* Defines Route path to all components */}
 
-                    <Routes>
-                        <Route
-                            path="/"
-                            element={IsAuth ? <Navigate to="/home" /> : <Home />}
-                        />
-                        <Route path="/home" element={<HomePage />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/register" element={<Register />} />
-                    </Routes>
+                    <Switch>
+                        <Route path="/" exact component={() => {
+                            if (IsAuth) {
+                                return (
+                                    <Redirect to='/home' />
+                                )
+                            }
+                            else {
+                                return (
+                                    <Home />
+                                )
+                            }
+                        }} />
+                        <Route path="/home" exact component={HomePage} />
+                        <Route path="/login" exact component={Login} />
+                        <Route path="/register" exact component={Register} />
+                        {/* <Route path="/help" component={Help}/>
+                    <Route path="/contactUs" component={Contact}/> */}
+                        <Route path="/recoverUsernamePassword" component={PasswordRecovery} />
+                        <PrivateRoute exact path="/student" component={Student} />
+                        <PrivateRoute path="/admin" component={Admin} />
+                        <PrivateRoute path="/accountdetails" component={Profile} />
+                        <PrivateRoute path="/exam1/:groupId/:testId" component={Exam} />
+                        <PrivateRoute path="/exam2/:groupId/:testId" component={Exam2} />
+                        <PrivateRoute path="/exam3/:groupId/:testId" component={Exam3} />
+                        <PrivateRoute path="/createtest/:groupId" component={CreateTest} />
+                        <PrivateRoute path="/edittest/:groupId/:testId" component={EditTest} />
+                        <PrivateRoute path="/admingroups/:groupId" component={GroupDetailAdmin} />
+                        <PrivateRoute path="/studentgroups/:groupId" component={GroupDetailStudent} />
+                        <PrivateRoute path="/student/result/1/:testId" component={StudentResult} />
+                        <PrivateRoute path="/student/result/2/:testId" component={StudentResult2} />
+                        <PrivateRoute path="/student/result/3/:testId" component={StudentResult3} />
+                        <PrivateRoute path="/adminresult/1/:testId/:studentId" component={AdminStudentResult} />
+                        <PrivateRoute path="/adminresult/2/:testId/:studentId" component={AdminStudentResult2} />
+                        <PrivateRoute path="/adminresult/3/:testId/:studentId" component={AdminStudentResult3} />
+                        <PrivateRoute path="/adminSummary/:testType/:testId" component={AdminSummary} />
+                        <Redirect to="/home" />
+                    </Switch>
+
+                    {/* <Footer/> */}
                 </>
             </div>
         );
@@ -91,4 +148,4 @@ class Main extends Component {
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

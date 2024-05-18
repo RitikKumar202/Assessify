@@ -1,23 +1,21 @@
 import * as ActionTypes from './ActionTypes';
 
-const initialState = {
+export const Groups = (state = {
     isLoading: true,
     errMess: null,
     groups: null
-};
-
-export const Groups = (state = initialState, { type, payload }) => {
-    switch (type) {
+}, action) => {
+    switch (action.type) {
         case ActionTypes.ADD_GROUPS:
-            return { ...state, isLoading: false, errMess: null, groups: payload };
+            return { ...state, isLoading: false, errMess: null, groups: action.payload };
 
         case ActionTypes.GROUPS_LOADING:
             return { ...state, isLoading: true, errMess: null, groups: null };
 
         case ActionTypes.GROUPS_FAILED:
-            return { ...state, isLoading: false, errMess: payload, groups: null };
+            return { ...state, isLoading: false, errMess: action.payload, groups: null };
 
         default:
             return state;
     }
-};
+}

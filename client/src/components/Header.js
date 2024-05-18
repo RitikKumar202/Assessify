@@ -4,9 +4,6 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Button } from 'reactstrap';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import { IoHome, IoInformationCircle, IoHelpCircle, IoBarChartSharp } from "react-icons/io5";
-import { BiSolidContact } from "react-icons/bi";
-import { CgProfile } from "react-icons/cg";
 import { Link } from 'react-router-dom';
 import { logoutUser } from '../redux/ActionCreators/LoginActions';
 import { connect } from 'react-redux';
@@ -51,27 +48,27 @@ const Header = ({ authenticated, logoutUser }) => {
                                     {authenticated.isAuthenticated ?
                                         <>
                                             <Nav.Link href='/' className='nav-item'>
-                                                <span><IoHome /></span>Groups
+                                                <span className="fa fa-tasks fa-lg"></span>Groups
                                             </Nav.Link>
                                             <Nav.Link href="#action2" className='nav-item'>
-                                                <span><IoBarChartSharp /></span>Results
+                                                <span className="fa fa-bar-chart fa-lg"></span>Results
                                             </Nav.Link>
                                             <Nav.Link href="/profile" className='nav-item'>
-                                                <span><CgProfile /></span>Profile
+                                                <span className="fa fa-info fa-lg"></span>Profile
                                             </Nav.Link>
                                         </> :
                                         <>
                                             <Nav.Link href='/' className='nav-item'>
-                                                <span><IoHome /></span>Home
+                                                <span className="fa fa-home fa-lg"></span>Home
                                             </Nav.Link>
                                             <Nav.Link href="#action2" className='nav-item'>
-                                                <span><IoInformationCircle /></span>About Us
+                                                <span className="fa fa-info fa-lg"></span>About Us
                                             </Nav.Link>
                                             <Nav.Link href="#action2" className='nav-item'>
-                                                <span><IoHelpCircle /></span>Help
+                                                <span className="fa fa-desktop fa-lg"></span>Help
                                             </Nav.Link>
                                             <Nav.Link href="#action2" className='nav-item'>
-                                                <span><BiSolidContact /></span>Contact Us
+                                                <span className="fa fa-address-card fa-lg"></span>Contact Us
                                             </Nav.Link>
                                         </>
                                     }

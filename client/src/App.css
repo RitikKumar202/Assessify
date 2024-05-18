@@ -21,3 +21,15 @@
     background: #dd4545 !important;
     border: none !important;
 }
+
+table,
+th,
+td {
+    border: 1px solid black !important;
+}
+
+th {
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center !important;
+}

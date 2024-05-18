@@ -11,12 +11,13 @@ const groupSchema = new Schema({
         default: false
     },
     creator: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Admin'
     },
     tests: [{
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Test'
+
     }],
     members: [{
         name: {
@@ -28,7 +29,7 @@ const groupSchema = new Schema({
             required: true
         },
         userID: {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         }
     }],
@@ -42,12 +43,14 @@ const groupSchema = new Schema({
             required: true
         },
         userID: {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
+
         }
     }]
-}, { timestamps: true });
+}, {
+    timestamps: true
+});
 
-const Group = mongoose.model('Group', groupSchema);
-
-module.exports = Group;
+var Groups = mongoose.model('Group', groupSchema);
+module.exports = Groups;

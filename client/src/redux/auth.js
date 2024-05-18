@@ -1,9 +1,21 @@
 import * as ActionTypes from './ActionTypes';
 
-const initialState = {
+
+
+// export const Auth = (state={
+//     isAuthenticated: false,
+//     isAdmin: true,
+// },action)=>{
+//     switch(action.type){
+//         default:
+//         return state
+//     }
+
+// }
+export const Auth = (state = {
     isLoading: false,
-    isAuthenticated: !!localStorage.getItem('user'),
-    token: localStorage.getItem('token') || '',
+    isAuthenticated: localStorage.getItem('user') ? true : false,
+    token: localStorage.getItem('token'),
     user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
     err: {
         password: false,
@@ -11,10 +23,8 @@ const initialState = {
         passMessage: '',
         userMessage: ''
     },
-    isAdmin: localStorage.getItem('isAdmin') === 'true'
-};
-
-export const Auth = (state = initialState, action) => {
+    isAdmin: localStorage.getItem('isAdmin') === 'true' ? true : false,
+}, action) => {
     switch (action.type) {
         case ActionTypes.LOGIN_REQUEST:
             return {
@@ -53,6 +63,6 @@ export const Auth = (state = initialState, action) => {
                 user: null
             };
         default:
-            return state;
+            return state
     }
-};
+}

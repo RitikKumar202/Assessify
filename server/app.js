@@ -1,77 +1,110 @@
 const express = require("express");
-const fileupload = require("express-fileupload");
-const bodyParser = require("body-parser");
+const fileupload = require("express-fileupload")
+const bodyParser = require("body-parser")
 const cors = require('cors');
-require('dotenv').config();
-
+require('dotenv').config()
+// const session = require('express-session')
+// const passport = require('passport')
 const groupRouter = require('./src/routes/groupRouter');
 const registerRouter = require("./src/routes/registerRouter");
-const testRouter = require("./src/routes/testRouter");
-const studentRouter = require("./src/routes/studentRouter");
-const adminRouter = require("./src/routes/adminRouter");
-const forgotPassword = require("./src/routes/forgotPasswordRouter");
+const testRouter = require("./src/routes/testRouter")
+const studentRouter = require("./src/routes/studentRouter")
+const adminRouter = require("./src/routes/adminRouter")
+const forgotPassword = require("./src/routes/forgotPasswordRouter")
 const createTestRouter = require("./src/routes/createTestRouter");
 
-const app = express();
-const passport = require('passport');
-const authenticate = require('./src/authenticate');
+const app = express()
+
+var passport = require('passport');
+var authenticate = require('./src/authenticate');
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-app.use(fileupload());
+app.use(fileupload())
+
+
 app.use(express.json());
 
-const port = process.env.PORT || 5000;
-
 app.use(passport.initialize());
+app.use(passport.session());
 
-app.use('/groups', groupRouter);
-app.use('/register', registerRouter);
-app.use('/tests', testRouter);
-app.use('/student', studentRouter);
-app.use('/admin', adminRouter);
-app.use('/createtest', createTestRouter);
+const port = process.env.PORT || 4000
+app.use('/groups', groupRouter);         //A router to manage groups like adding/removing members and initialising a test
+app.use('/register', registerRouter);    //A router to handle registration
+app.use('/tests', testRouter);       //A router to handle requests during the exam like storing reponse to a answer and sending questions and verification before start
+app.use('/student', studentRouter)       //A router for student's request to get list of test and result sheet
+app.use('/admin', adminRouter);      //Router to handle admin's request to see test result and evaluation
+app.use('/createtest', createTestRouter);        //Router to handle request related to creation and edit of test paper
 app.use('/forgotPassword', forgotPassword);
-
 app.get('/', (req, res) => {
-    res.send('Hello from Assessify server!!!');
-});
+
+    res.send('Hello from Quiz-time server !!!')
+})
+
+// app.post('/login/user',passport.authenticate('user-local',{session:false}) ,(req,res)=>{
+//     console.log(req.user);
+//     var token = authenticate.getToken({_id: req.user._id});
+//     res.statusCode = 200;
+//      res.setHeader('Content-Type', 'application/json');
+//     res.json({success: true, token: token, status: 'You are successfully logged in!',user:req.user});
+// });
+// app.post('/login/admin',passport.authenticate('admin-local',{session:false}) ,(req,res)=>{
+//     var token = authenticate.getToken({_id: req.user._id});
+//     res.statusCode = 200;
+//     res.setHeader('Content-Type', 'application/json');
+//     res.json({success: true, token: token, status: 'You are successfully logged in!',user:req.user});
+// });
 
 app.post('/login/admin', (req, res, next) => {
     passport.authenticate('admin-local', (err, user, info) => {
         if (err) { return next(err); }
         if (!user) {
-            const errortoSend = {
+            var errortoSend = {
                 password: false,
                 username: false,
                 passMessage: "",
                 userMessage: ""
-            };
+            }
             if (info.name === "IncorrectUsernameError") {
-                errortoSend.username = true;
-                errortoSend.userMessage = "No Such Administrator Account Exist";
+
+                errortoSend.username = true,
+                    errortoSend.userMessage = "No Such Administrator Account Exist"
             }
             if (info.name === "IncorrectPasswordError") {
-                errortoSend.password = true;
-                errortoSend.passMessage = "Invalid Password";
+
+                errortoSend.password = true,
+                    errortoSend.passMessage = "Invalid Password "
             }
-            return res.status(200).json({ success: false, error: errortoSend });
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json({
+                success: false,
+                error: errortoSend
+            });
         }
-        const usertoSend = {
-            username: user.username,
-            firstname: user.firstname,
-            lastname: user.lastname,
-            email: user.email,
-            organisation: user.organisation
-        };
-        const token = authenticate.getToken({ _id: user._id });
-        const response = {
-            success: true,
-            token: token,
-            status: 'You are successfully logged in!',
-            user: usertoSend
-        };
-        return res.status(200).json(response);
+        if (user) {
+            var usertoSend = {
+                username: user.username,
+                firstname: user.firstname,
+                lastname: user.lastname,
+                email: user.email,
+                organisation: user.organisation
+            }
+            var token = authenticate.getToken({ _id: user._id });
+            var response = {
+                success: true,
+                token: token,
+                status: 'You are successfully logged in!',
+                user: usertoSend
+
+            }
+
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json(response);
+
+        }
     })(req, res, next);
 });
 
@@ -79,39 +112,55 @@ app.post('/login/user', (req, res, next) => {
     passport.authenticate('user-local', (err, user, info) => {
         if (err) { return next(err); }
         if (!user) {
-            const errortoSend = {
+            var errortoSend = {
                 password: false,
                 username: false,
                 passMessage: "",
                 userMessage: ""
-            };
+            }
             if (info.name === "IncorrectUsernameError") {
-                errortoSend.username = true;
-                errortoSend.userMessage = "No such student account exist!";
+
+                errortoSend.username = true,
+                    errortoSend.userMessage = "No such student account exist!"
             }
             if (info.name === "IncorrectPasswordError") {
-                errortoSend.password = true;
-                errortoSend.passMessage = "Invalid Password";
+
+                errortoSend.password = true,
+                    errortoSend.passMessage = "Invalid Password "
             }
-            return res.status(200).json({ success: false, error: errortoSend });
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json({
+                success: false,
+                error: errortoSend
+            });
         }
-        const usertoSend = {
-            username: user.username,
-            firstname: user.firstname,
-            lastname: user.lastname,
-            email: user.email
-        };
-        const token = authenticate.getToken({ _id: user._id });
-        const response = {
-            success: true,
-            token: token,
-            status: 'You are successfully logged in!',
-            user: usertoSend
-        };
-        return res.status(200).json(response);
+        if (user) {
+            var usertoSend = {
+                username: user.username,
+                firstname: user.firstname,
+                lastname: user.lastname,
+                email: user.email,
+            }
+            var token = authenticate.getToken({ _id: user._id });
+            var response = {
+                success: true,
+                token: token,
+                status: 'You are successfully logged in!',
+                user: usertoSend
+
+            }
+
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json(response);
+
+        }
     })(req, res, next);
 });
 
+
+
 app.listen(port, () => {
-    console.log("App started at " + port);
-});
+    console.log("App started at " + port)
+})

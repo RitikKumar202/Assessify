@@ -1,25 +1,24 @@
 import * as ActionTypes from './ActionTypes';
 
-const initialState = {
+export const Tests = (state = {
     isLoading: true,
     errMess: null,
     tests: []
-};
-
-export const Tests = (state = initialState, action) => {
+}, action) => {
     switch (action.type) {
         case ActionTypes.FETCH_TESTS:
             return { ...state, isLoading: false, errMess: null, tests: action.payload };
+
         case ActionTypes.FETCH_TESTS_LOADING:
             return { ...state, isLoading: true, errMess: null, tests: [] };
+
         case ActionTypes.FETCH_TESTS_FAILED:
             return { ...state, isLoading: false, errMess: action.payload, tests: [] };
         default:
             return state;
     }
-};
-
-const initialTestState = {
+}
+export const Test = (state = {
     isLoading: true,
     errMess: null,
     test: {
@@ -65,19 +64,21 @@ const initialTestState = {
                 option4: 'Gluon',
                 answer: 'option1'
             }
+
         ]
     }
-};
-
-export const Test = (state = initialTestState, action) => {
+}, action) => {
     switch (action.type) {
         case ActionTypes.FETCH_TEST:
-            return { ...state, isLoading: false, errMess: null, test: action.payload };
+            return { ...state, isLoading: false, errMess: null, tests: action.payload };
+
         case ActionTypes.FETCH_TEST_LOADING:
-            return { ...state, isLoading: true, errMess: null, test: { ...initialTestState.test } };
+            return { ...state, isLoading: true, errMess: null, tests: [] };
+
         case ActionTypes.FETCH_TEST_FAILED:
-            return { ...state, isLoading: false, errMess: action.payload, test: { ...initialTestState.test } };
+            return { ...state, isLoading: false, errMess: action.payload, tests: [] };
         default:
             return state;
+
     }
-};
+}

@@ -1,8 +1,8 @@
-import { legacy_createStore as createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Test, Tests } from './TestAction';
 import { Auth } from './auth';
 import { Groups } from './groups';
-import { thunk } from 'redux-thunk';
+import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
 export const ConfigureStore = () => {

@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
 const testSchema = new Schema({
     title: {
         type: String,
         required: true
     },
     createdBy: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Admin'
     },
     totalQuestions: {
@@ -30,7 +29,9 @@ const testSchema = new Schema({
         type: Number,
         default: 0
     },
-    testType: String,
+    testType: {
+        type: String,
+    },
     negative: {
         type: Boolean,
         default: false
@@ -49,7 +50,7 @@ const testSchema = new Schema({
             required: true
         },
         userID: {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         },
         marks: {
@@ -64,6 +65,7 @@ const testSchema = new Schema({
             type: Number,
             default: 0,
         },
+
         isEvaluated: {
             type: Boolean,
             default: false,
@@ -85,14 +87,18 @@ const testSchema = new Schema({
                 default: ''
             }
         }],
-        file: String,
+        file: {
+            type: String
+        },
     }],
     isQuestionInPDF: {
         type: Boolean,
         required: true,
         default: false
     },
-    questionPDF: String,
+    questionPDF: {
+        type: String,
+    },
     questions: [{
         questionNo: {
             type: Number,
@@ -106,18 +112,34 @@ const testSchema = new Schema({
             type: String,
             required: true
         },
-        A: String,
-        B: String,
-        C: String,
-        D: String,
-        ans: String,
+        A: {
+            type: String,
+
+        },
+        B: {
+            type: String,
+            // required:true
+        },
+        C: {
+            type: String,
+            // required:true
+        },
+        D: {
+            type: String,
+            // required:true
+        },
+        ans: {
+            type: String,
+            // required:true
+        },
         marks: {
             type: Number,
             required: true
         }
     }]
-}, { timestamps: true });
+}, {
+    timestamps: true
+});
 
-const Test = mongoose.model('Test', testSchema);
-
-module.exports = Test;
+var Tests = mongoose.model('Test', testSchema);
+module.exports = Tests;
