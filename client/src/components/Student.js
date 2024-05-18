@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 import { connect } from 'react-redux'
 import { joinGroup, fetchGroups } from '../redux/ActionCreators/GroupActions';
+import { Groups } from '../utils/ImageUtils';
 
 const mapStateToProps = state => ({
     groups: state.groups,
@@ -74,9 +75,9 @@ class Student extends Component {
         if (groups) {
             grouplist = groups.map((group, index) => {
                 return (
-                    <tr>
+                    <tr className='group-data-row'>
                         <td>{index + 1}</td>
-                        <td><span className="fa fa-user fa-lg"></span>{group.name}</td>
+                        <td><img src={Groups} alt="Groups" />{group.name}</td>
                         <td>{group.creator.firstname}</td>
                         <td>{group.tests.length}</td>
                         <td><Link to={`/studentgroups/${group._id}`} ><Button outline color="info" size="sm">Details </Button></Link></td>
@@ -102,30 +103,23 @@ class Student extends Component {
                 </Nav>
 
                 {/* Contents of both tabs */}
-
-                <TabContent activeTab={this.state.activeTab}>
-                    <TabPane tabId="1">
-                        <Row>
-                            <Col sm="12">
-                                <Table striped bordered hover>
-                                    <thead>
-                                        <tr>
-                                            <th>S.No.</th>
-                                            <th>Group Name</th>
-                                            <th>Created By</th>
-                                            <th>Tests</th>
-                                            <th>Group Details</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {grouplist}
-                                    </tbody>
-                                </Table>
-                            </Col>
-                        </Row>
-                    </TabPane>
-                </TabContent>
-                <Button onClick={this.toggleModal} type="submit" color="light-blue">Join A Group</Button>
+                <div class="table-responsive" activeTab={this.state.activeTab}>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>Group Name</th>
+                                <th>Created By</th>
+                                <th>Tests</th>
+                                <th>Group Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {grouplist}
+                        </tbody>
+                    </table>
+                </div>
+                <Button className='join-group-btn' onClick={this.toggleModal} type="submit" color="primary">Join Group</Button>
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                     <ModalHeader toggle={this.toggleModal}><strong>Join A Group</strong></ModalHeader>
                     <ModalBody >

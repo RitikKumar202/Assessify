@@ -119,7 +119,6 @@ class Admin extends Component {
                             <tr>
                                 <th>Group Name</th>
                                 <th>Total Members</th>
-                                {/* <th>Add New Members</th> */}
                                 <th>Total Tests</th>
                                 <th>Create New Test</th>
                                 <th>Details</th>
@@ -130,6 +129,7 @@ class Admin extends Component {
                         </tbody>
                     </table>
                 </div>
+                <Button className='create-group-btn' onClick={this.toggleModal} type="submit" color="primary">Create Group</Button>
 
                 {/* Create Group Form */}
 

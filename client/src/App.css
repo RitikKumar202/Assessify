@@ -208,3 +208,9 @@ th {
         width: 350px;
     }
 }
+
+/* Studen and Admin css */
+.create-group-btn,
+.join-group-btn {
+    margin-top: 20px !important;
+}
