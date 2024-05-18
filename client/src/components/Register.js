@@ -264,7 +264,7 @@ class Register extends Component {
                             <Card style={{ width: '18rem' }} className="border-primary text-center mb-5 mt-5">
                                 <CardHeader className="bg-primary text-white">Test Takers</CardHeader>
                                 <CardBody>
-                                    <CardText>All test takers Register on link below:-</CardText>
+                                    <CardText>All test takers Register from the below link👇</CardText>
                                     <Button onClick={this.toggleModal1} type="submit" color="primary">Register</Button>
                                 </CardBody>
                             </Card>
@@ -272,7 +272,7 @@ class Register extends Component {
                             <Card style={{ width: '18rem' }} className="border-danger text-center mb-5 mt-5">
                                 <CardHeader className="bg-danger text-white">Administrators</CardHeader>
                                 <CardBody>
-                                    <CardText>All Admin Register on link below:-</CardText>
+                                    <CardText>All Admin Register from the below link👇</CardText>
                                     <Button onClick={this.toggleModal2} type="submit" color="danger">Register</Button>
                                 </CardBody>
                             </Card>
@@ -283,7 +283,7 @@ class Register extends Component {
                 {/* Student Registration Form */}
 
                 <Modal isOpen={this.state.isModal1Open} toggle={this.toggleModal1}>
-                    <ModalHeader toggle={this.toggleModal1}><strong>Sign up  free Student Account</strong></ModalHeader>
+                    <ModalHeader toggle={this.toggleModal1}><strong>Sign up for Student</strong></ModalHeader>
                     <ModalBody >
                         <Form onSubmit={this.handleSubmitUsers}>
                             <FormGroup row>
@@ -360,7 +360,7 @@ class Register extends Component {
                 {/* Administrator Registration Form */}
 
                 <Modal isOpen={this.state.isModal2Open} toggle={this.toggleModal2}>
-                    <ModalHeader toggle={this.toggleModal2}><strong>Sign up for Administrator Account</strong></ModalHeader>
+                    <ModalHeader toggle={this.toggleModal2}><strong>Sign up for Administrator</strong></ModalHeader>
                     <ModalBody >
                         <Form onSubmit={this.handleSubmitAdmins}>
                             <FormGroup row>
