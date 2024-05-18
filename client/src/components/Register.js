@@ -4,6 +4,7 @@ import { Card, CardBody, Label, Form, FormGroup, Input, Modal, ModalHeader, Moda
 import { adminRegistration, userRegistration } from '../redux/ActionCreators/RegisterActions';
 import { loginUser } from '../redux/ActionCreators/LoginActions';
 import { baseUrl } from '../shared/baseUrl';
+import { toast } from 'react-toastify';
 //Registration Component To Handle Registration Forms
 
 
@@ -131,7 +132,7 @@ class Register extends Component {
                 })
             .then(response => response.json())
             .then(response => {
-                alert('Your Registration is Sucessfull, Sign in to the New Account Using Username and Password! ')
+                toast.success("Successfully registered");
                 var creds = {
                     username: user.username,
                     password: user.password,
@@ -143,8 +144,7 @@ class Register extends Component {
             })
             .catch(error => {
                 console.log('Admin Registration ', error.message);
-                //alert('Your Registration was UnsucessFull\nError: '+ error.message); })
-                alert('This usename is already taken');
+                toast.error("Username already taken");
             });
 
         event.preventDefault();
@@ -190,7 +190,7 @@ class Register extends Component {
                 })
             .then(response => response.json())
             .then(response => {
-                alert('Your Registration is Sucessfull, Sign in to the New Account Using Username and Password! ')
+                toast.success("Successfully registered");
                 var creds = {
                     username: user.username,
                     password: user.password,
@@ -202,8 +202,7 @@ class Register extends Component {
             })
             .catch(error => {
                 console.log('User Registration ', error.message);
-                //alert('Your Registration was UnsucessFull\nError: '+ error.message); })
-                alert('This usename is already taken');
+                toast.error("Username already taken");
             });
 
 
@@ -247,8 +246,8 @@ class Register extends Component {
         // if (this.state.touched.password && !reg.test(password))
         //     errors.password = 'Password should contain only numbers';
 
-        if (this.state.touched.email && email.split('').filter(x => x === '@').length !== 1)
-            errors.email = 'Email should contain a @';
+        if (this.state.touched.email && !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.state.email))
+            errors.email = 'Invalid email address';
 
         return errors;
     }
