@@ -3,6 +3,7 @@ import { TabContent, TabPane, Row, Col, Table, Label, Form, FormGroup, Input, Mo
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createGroup, acceptMember, removeReq, removeMem, joinGroup, createTest, fetchGroups } from '../redux/ActionCreators/GroupActions.js';
+import { Groups } from '../utils/ImageUtils.js';
 
 const mapStateToProps = state => ({
     auth: state.auth,
@@ -21,8 +22,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 function GroupRows({ group }) {
     return (
-        <tr key={group._id}>
-            <td><span className="fa fa-user fa-lg"></span>{group.name}</td>
+        <tr key={group._id} className='group-data-row'>
+            <td><img src={Groups} alt="Groups" />{group.name}</td>
             <td>{group.members.length}</td>
             <td>{group.tests.length}</td>
             <td><Link to={`/createtest/${group._id}`}><Button outline color="info" size="sm">Create</Button></Link></td>
@@ -112,32 +113,23 @@ class Admin extends Component {
 
         return (
             <div className="container mt-5">
-
-                <TabContent activeTab={this.state.activeTab}>
-
-                    <TabPane tabId="1">
-                        <Row>
-                            <Col sm="12">
-                                <Table striped bordered hover>
-                                    <thead>
-                                        <tr>
-                                            <th>Group Name</th>
-                                            <th>Total Members</th>
-                                            {/* <th>Add New Members</th> */}
-                                            <th>Total Tests</th>
-                                            <th>Create New Test</th>
-                                            <th>Details</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {grouplist}
-                                    </tbody>
-                                </Table>
-                                <Button onClick={this.toggleModal} type="submit" color="light-blue">Create Group</Button>
-                            </Col>
-                        </Row>
-                    </TabPane>
-                </TabContent>
+                <div class="table-responsive" activeTab={this.state.activeTab}>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Group Name</th>
+                                <th>Total Members</th>
+                                {/* <th>Add New Members</th> */}
+                                <th>Total Tests</th>
+                                <th>Create New Test</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {grouplist}
+                        </tbody>
+                    </table>
+                </div>
 
                 {/* Create Group Form */}
 

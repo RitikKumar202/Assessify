@@ -19,37 +19,37 @@ const Home = () => {
     ]);
 
     return (
-        <div className='my-5'>
-            <div className='flex justify-center gap-4 px-3'>
-                <div className='w-[550px] flex flex-col items-center justify-center'>
-                    <div className='text-center'>
+        <div className='home-container'>
+            <div className='home-hero-sec'>
+                <div className='hero-left'>
+                    <div className='heading'>
                         <h2>Online Examination Platform</h2>
                     </div>
-                    <div className='text-center'>
+                    <div className='sub-heading'>
                         <p>Provides a virtual environment for conducting exams. Offers various types of assessments such as MCQ, Fill Up, Assignment Type etc., catering to different learning styles and subjects.</p>
                     </div>
                     <Link to="/register">
-                        <Button>
+                        <Button color='primary'>
                             REGISTER NOW
                         </Button>
                     </Link>
                 </div>
-                <div className='h-96 md:block hidden'>
-                    <img className='h-[100%]' src={Hero} alt="hero" />
+                <div className='hero-img'>
+                    <img src={Hero} alt="hero" />
                 </div>
             </div>
 
-            <div className='mt-8 flex flex-col items-center justify-center'>
+            <div className='home-feature-container'>
                 <h3>Why Choose Assessify?</h3>
-                <div className='flex justify-center items-center flex-wrap gap-[20px] mt-5'>
+                <div className='home-feature'>
                     {features.map((feature, index) => (
                         <div
                             key={index}
-                            className='w-[350px] rounded-md px-3 py-5 flex flex-col items-center justify-center shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] hover:bg-[#57575b] hover:text-white duration-300'
+                            className='home-feature-card'
                         >
-                            <img className='w-16' src={feature.icon} alt={feature.icon} />
-                            <p className='mt-3 text-2xl text-center font-semibold'>{feature.title}</p>
-                            <p className='text-center text-base'>{feature.description}</p>
+                            <img src={feature.icon} alt={feature.icon} />
+                            <p className='title'>{feature.title}</p>
+                            <p className='desc'>{feature.description}</p>
                         </div>
                     ))}
                 </div>

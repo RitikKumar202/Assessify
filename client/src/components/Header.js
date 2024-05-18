@@ -7,6 +7,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import { Link } from 'react-router-dom';
 import { logoutUser } from '../redux/ActionCreators/LoginActions';
 import { connect } from 'react-redux';
+import { AboutUs, ContactUs, Groups, Help, Home, Profile, Results } from '../utils/ImageUtils';
 
 const mapStateToProps = (state) => ({
     authenticated: state.auth,
@@ -48,37 +49,44 @@ const Header = ({ authenticated, logoutUser }) => {
                                     {authenticated.isAuthenticated ?
                                         <>
                                             <Nav.Link href='/' className='nav-item'>
-                                                <span className="fa fa-tasks fa-lg"></span>Groups
+                                                <img src={Groups} alt="Groups" />
+                                                <span>Groups</span>
                                             </Nav.Link>
-                                            <Nav.Link href="#action2" className='nav-item'>
-                                                <span className="fa fa-bar-chart fa-lg"></span>Results
+                                            <Nav.Link href="/results" className='nav-item'>
+                                                <img src={Results} alt="Results" />
+                                                <span>Results</span>
                                             </Nav.Link>
                                             <Nav.Link href="/profile" className='nav-item'>
-                                                <span className="fa fa-info fa-lg"></span>Profile
+                                                <img src={Profile} alt="user" />
+                                                <span>Profile</span>
                                             </Nav.Link>
                                         </> :
                                         <>
                                             <Nav.Link href='/' className='nav-item'>
-                                                <span className="fa fa-home fa-lg"></span>Home
+                                                <img src={Home} alt="Home" />
+                                                <span>Home</span>
                                             </Nav.Link>
-                                            <Nav.Link href="#action2" className='nav-item'>
-                                                <span className="fa fa-info fa-lg"></span>About Us
+                                            <Nav.Link href="/about-us" className='nav-item'>
+                                                <img src={AboutUs} alt="AboutUs" />
+                                                <span>About Us</span>
                                             </Nav.Link>
-                                            <Nav.Link href="#action2" className='nav-item'>
-                                                <span className="fa fa-desktop fa-lg"></span>Help
+                                            <Nav.Link href="/help" className='nav-item'>
+                                                <img src={Help} alt="Help" />
+                                                <span>Help</span>
                                             </Nav.Link>
-                                            <Nav.Link href="#action2" className='nav-item'>
-                                                <span className="fa fa-address-card fa-lg"></span>Contact Us
+                                            <Nav.Link href="/contact-us" className='nav-item'>
+                                                <img src={ContactUs} alt="contact" />
+                                                <span>Contact Us</span>
                                             </Nav.Link>
                                         </>
                                     }
-                                    <div className='mt-3'>
+                                    <div className='header-btn'>
                                         {authenticated.isAuthenticated ?
-                                            <Button className='w-full logOut-btn' onClick={logoutUser}>
+                                            <Button className='btnn logOut-btn' onClick={logoutUser}>
                                                 Log Out
                                             </Button> :
                                             <Link to="/login">
-                                                <Button className='w-full' onClick={handleLoginClick}>
+                                                <Button className='btn' onClick={handleLoginClick}>
                                                     Login
                                                 </Button>
                                             </Link>

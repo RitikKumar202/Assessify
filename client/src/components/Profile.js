@@ -123,11 +123,11 @@ class Profile extends Component {
         // console.log(this.props.auth)
         return (
             <>
-                <div className='container'>
+                <div className='container profile-container'>
                     <div className='row justify-content-center'>
                         <div className='col-md-6' style={{ 'padding': 20 + 'px' }} >
                             <Card >
-                                <CardHeader ><h3><b>Profile</b></h3></CardHeader>
+                                <CardHeader className='profile-header'><h3><b>Account Details</b></h3></CardHeader>
                                 <CardBody>
                                     <Table striped bordered hover>
                                         <tbody>
