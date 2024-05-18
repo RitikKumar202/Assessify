@@ -9,6 +9,7 @@ import ContactUsIcon from "../assets/icons/contact.png";
 import GroupsIcon from "../assets/icons/group.png";
 import ResultsIcon from "../assets/icons/result.png";
 import ProfileIcon from "../assets/icons/profile.png";
+import ContactUsImage from "../assets/contact-us.avif";
 
 // Export named constants
 export {
@@ -16,10 +17,11 @@ export {
     Use1,
     Use2,
     Home,
-    AboutUsIcon as AboutUs, // Renamed for clarity
-    HelpIcon as Help, // Renamed for clarity
-    ContactUsIcon as ContactUs, // Renamed for clarity
-    GroupsIcon as Groups, // Renamed for clarity
-    ResultsIcon as Results, // Renamed for clarity
-    ProfileIcon as Profile // Renamed for clarity
+    AboutUsIcon as AboutUs,
+    HelpIcon as Help,
+    ContactUsIcon as ContactUs,
+    GroupsIcon as Groups,
+    ResultsIcon as Results,
+    ProfileIcon as Profile,
+    ContactUsImage
 };

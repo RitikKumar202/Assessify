@@ -14,7 +14,6 @@ import Exam3 from './Exam3.js';
 import Register from './Register';
 import Admin from './Admin';
 // import Help from './HelpComponent';
-// import Contact from './ContactUsComponent';
 import CreateTest from './CreateTest';
 import EditTest from './EditTest';
 import GroupDetailAdmin from './GroupDetailAdmin';
@@ -31,6 +30,7 @@ import StudentResult3 from './StudentResult3';
 import AdminSummary from './AdminSummary';
 import Profile from './Profile';
 import PasswordRecovery from './PasswordRecovery';
+import ContactUs from './ContactUs';
 
 //Adding Redux store with Main State
 
@@ -116,8 +116,8 @@ class Main extends Component {
                         <Route path="/home" exact component={HomePage} />
                         <Route path="/login" exact component={Login} />
                         <Route path="/register" exact component={Register} />
-                        {/* <Route path="/help" component={Help}/>
-                    <Route path="/contactUs" component={Contact}/> */}
+                        {/* <Route path="/help" component={Help}/> */}
+                        <Route path="/contact-us" component={ContactUs} />
                         <Route path="/recoverUsernamePassword" component={PasswordRecovery} />
                         <PrivateRoute exact path="/student" component={Student} />
                         <PrivateRoute path="/admin" component={Admin} />

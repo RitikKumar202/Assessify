@@ -60,6 +60,10 @@ const Header = ({ authenticated, logoutUser }) => {
                                                 <img src={Profile} alt="user" />
                                                 <span>Profile</span>
                                             </Nav.Link>
+                                            <Nav.Link href="/contact-us" className='nav-item'>
+                                                <img src={ContactUs} alt="contact" />
+                                                <span>Contact Us</span>
+                                            </Nav.Link>
                                         </> :
                                         <>
                                             <Nav.Link href='/' className='nav-item'>
