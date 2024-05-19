@@ -14,7 +14,7 @@ passport.use('admin-local', new LocalStrategy(Admin.authenticate()));
 // passport.deserializeUser(User.deserializeUser());
 
 exports.getToken = function (user) {
-    return jwt.sign(user, process.env.secretKey, { expiresIn: 10800 });
+    return jwt.sign(user, process.env.secretKey, { expiresIn: '7d' });
 };
 
 var opts = {};

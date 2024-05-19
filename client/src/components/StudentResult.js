@@ -50,7 +50,7 @@ class StudentResult extends Component {
     render() {
         if (this.state.isFetching) {
             return (
-                <>Loading-----</>
+                <h2 className='loading'>Loading.....</h2>
             )
         }
         else if (this.state.message) {
@@ -116,7 +116,7 @@ class StudentResult extends Component {
             var neg = test.negative ? "Yes" : "No";
             var negP = test.negative ? test.negPercentage : 0;
             return (
-                <div className="container">
+                <div className="container mt-5 mb-5">
                     <div className="row">
                         <div className="col-12 justify-content-center">
                             <Card className="mt-2">

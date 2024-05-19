@@ -53,7 +53,7 @@ class StudentResult2 extends Component {
     render() {
         if (this.state.isFetching) {
             return (
-                <>Loading-----</>
+                <h2 className='loading'>Loading.....</h2>
             )
         }
         else if (this.state.message) {

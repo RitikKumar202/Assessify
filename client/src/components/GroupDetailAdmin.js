@@ -220,29 +220,35 @@ class GroupDetailAdmin extends Component {
                 <h2 className='loading'>Loading Groups.....</h2>
             );
         }
+        else if (!this.state.group) {
+            return (
+                <h2 className='loading'>Group not found.</h2>
+            );
+        }
         else {
             console.log(this.state.group)
             var pendingReqList;
             const group = this.state.group;
             console.log(group);
-            if (group.pendingReq.length) {
+            if (group && group.pendingReq && group.pendingReq.length) {
                 pendingReqList = group.pendingReq.map((req) => {
                     return (
                         <tr key={req.uniqueID} className='group-data-row'>
                             <td>{req.name}</td>
                             <td>{req.uniqueID}</td>
-                            <td><Button type="submit" color="outline-primary" size="sm" onClick={() => this.handleAcceptmember(req)}>Confirm</Button> <Button type="submit" color="outline-danger" size="sm" onClick={() => this.handleDeleteReq(req)}>Delete</Button></td>
+                            <td>
+                                <Button type="submit" color="outline-primary" size="sm" onClick={() => this.handleAcceptmember(req)}>Confirm</Button>{' '}
+                                <Button type="submit" color="outline-danger" size="sm" onClick={() => this.handleDeleteReq(req)}>Delete</Button>
+                            </td>
                         </tr>
                     );
-                })
+                });
+            } else {
+                pendingReqList = 'There are No Pending Req';
             }
-            else {
 
-                pendingReqList = 'There are No Pending Req'
-
-            }
             var memberList;
-            if (group.members.length) {
+            if (group && group.members && group.members.length) {
                 memberList = group.members.map((req, index) => {
                     var sno = index + 1;
                     return (
@@ -251,35 +257,32 @@ class GroupDetailAdmin extends Component {
                             <td>{req.name}</td>
                             <td>{req.uniqueID}</td>
                             <td><Button outline color="danger" size="sm" onClick={() => this.handleRemoveMember(req)}> Remove Member </Button></td>
-                            <td><Link to="#" ><Button outline color="primary" size="sm"> Details </Button></Link></td>
+                            <td><Link to="#"><Button outline color="primary" size="sm"> Details </Button></Link></td>
                         </tr>
                     );
-                })
+                });
+            } else {
+                memberList = 'There are No Members in the group';
             }
-            else {
 
-                memberList = 'There are No Members in group'
-
-            }
             var testslist;
-            if (group.tests.length) {
+            if (group && group.tests && group.tests.length) {
                 testslist = group.tests.map((test, index) => {
                     var testtype;
                     if (test.testType === '1') {
-                        testtype = "MCQ Only"
+                        testtype = "MCQ Only";
+                    } else if (test.testType === '2') {
+                        testtype = "MCQ + Fill in the blanks";
+                    } else if (test.testType === '3') {
+                        testtype = "Assignment Type";
                     }
-                    if (test.testType === '2') {
-                        testtype = "MCQ + Fill in the blanks"
-                    }
-                    if (test.testType === '3') {
-                        testtype = "Assignment Type"
-                    }
+
                     var negative = test.negative ? "YES" : "NO";
                     var negPercentage = test.negative ? test.negPercentage : "0";
+
                     return (
-                        <tr className='group-data-row'>
+                        <tr key={test._id} className='group-data-row'>
                             <td>{test.title}</td>
-                            {/* <td>{moment.utc(test.startDate).local().format('MMMM Do YYYY,h:mm:ss a')}</td> */}
                             <td>{moment.utc(test.startDate).local().format('llll')}</td>
                             <td>{test.subject}</td>
                             <td>{test.duration}</td>
@@ -288,21 +291,20 @@ class GroupDetailAdmin extends Component {
                             <td>{negPercentage}</td>
                             <td>{test.totalMarks}</td>
                             <td>
-                                <Link to={`/edittest/${group._id}/${test._id}`} ><Button outline color="info" size="sm">Edit</Button></Link>
+                                <Link to={`/edittest/${group._id}/${test._id}`}><Button outline color="info" size="sm">Edit</Button></Link>
                             </td>
                             <td>
-                                <Link to={`/adminSummary/${test.testType}/${test._id}`} ><Button outline color="primary" size="sm">Click</Button></Link>
+                                <Link to={`/adminSummary/${test.testType}/${test._id}`}><Button outline color="primary" size="sm">Click</Button></Link>
                             </td>
                         </tr>
-
                     );
+                });
+            } else {
+                testslist = 'No tests Created Yet';
+            }
 
-                })
-            }
-            else {
-                testslist = 'No tests Created Yet'
-            }
             var grouptype = group.isPrivate ? 'Private' : 'Public';
+
             return (
                 <div className="container mt-5">
                     <Nav tabs>
