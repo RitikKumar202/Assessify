@@ -118,8 +118,8 @@ class Main extends Component {
                         <Route path="/register" exact component={Register} />
                         {/* <Route path="/help" component={Help}/> */}
                         <Route path="/contact-us" component={ContactUs} />
-                        <Route path="/recoverUsernamePassword" component={PasswordRecovery} />
-                        <PrivateRoute exact path="/student" component={Student} />
+                        <Route path="/forgot-password" component={PasswordRecovery} />
+                        <PrivateRoute path="/student" component={Student} />
                         <PrivateRoute path="/admin" component={Admin} />
                         <PrivateRoute path="/profile" component={Profile} />
                         <PrivateRoute path="/exam1/:groupId/:testId" component={Exam} />

@@ -53,6 +53,13 @@ th {
     gap: 10px;
 }
 
+.loading {
+    height: calc(100vh - 60px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /* Home css */
 .home-container {
     margin: 50px 0;
@@ -215,8 +222,71 @@ th {
     }
 }
 
+/* group details css */
+.group-details {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+.group-details h5 {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.group-details h5 span {
+    font-weight: 300;
+    font-size: 20px;
+    padding-left: 5px;
+}
+
+.group-details p {
+    font-weight: 400;
+}
+
+.group-details p span {
+    color: red;
+    font-size: 22px;
+    padding-right: 2px;
+}
+
 /* Studen and Admin css */
+.edit-test-wrapper {
+    margin: 50px 0;
+}
+
 .create-group-btn,
-.join-group-btn {
+.join-group-btn,
+.create-test-btn {
     margin-top: 20px !important;
+}
+
+/* edit test css */
+.edit-test-header,
+.edit-que-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.edit-test-header h5,
+.edit-que-header h5 {
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.edit-test-function,
+.edit-que-function {
+    display: flex;
+    flex-direction: row;
+    gap: 18px;
+}
+
+.edit-test-function img,
+.edit-que-function img {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
 }

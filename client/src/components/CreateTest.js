@@ -184,7 +184,7 @@ class CreateTest extends Component {
             </FormGroup>
         </>) : (<></>)
         return (
-            <div className="container">
+            <div className="container mt-5 mb-5">
                 <div className="row row-content">
                     <div className="col-12">
                         <Form onSubmit={this.handleCreateSubmit} enctype="multipart/form-data">

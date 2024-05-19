@@ -10,6 +10,8 @@ import GroupsIcon from "../assets/icons/group.png";
 import ResultsIcon from "../assets/icons/result.png";
 import ProfileIcon from "../assets/icons/profile.png";
 import ContactUsImage from "../assets/contact-us.avif";
+import EditIcon from "../assets/icons/edit.png";
+import TrashIcon from "../assets/icons/trash.png";
 
 // Export named constants
 export {
@@ -23,5 +25,7 @@ export {
     GroupsIcon as Groups,
     ResultsIcon as Results,
     ProfileIcon as Profile,
-    ContactUsImage
+    ContactUsImage,
+    EditIcon as Edit,
+    TrashIcon as Trash,
 };

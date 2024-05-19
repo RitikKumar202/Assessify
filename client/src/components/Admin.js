@@ -159,7 +159,7 @@ class Admin extends Component {
 
                             <FormGroup row >
                                 <Col md={{ size: 10 }}>
-                                    <Button type="submit" color="outline-success" size="md" style={{ float: 'right' }}>
+                                    <Button type="submit" color="success" size="md" style={{ float: 'right' }}>
                                         Create
                                     </Button>
                                 </Col>

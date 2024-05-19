@@ -126,7 +126,7 @@ class Login extends Component {
                                             </Col>
                                         </FormGroup>
                                         <div className='login-bottom'>
-                                            <Link to="/recoverUsernamePassword" >Forgot Password?</Link>
+                                            <Link to="/forgot-password" >Forgot Password?</Link>
                                             <span>Don't have account? <Link to='/register'>Register Here</Link></span>
                                         </div>
                                     </Form>

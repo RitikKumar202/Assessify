@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col, Table, Button } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 import { baseUrl } from '../shared/baseUrl';
@@ -60,7 +60,7 @@ class GroupDetailStudent extends Component {
     render() {
         if (this.state.isFetching) {
             return (
-                <p>Loading Tests:-----</p>
+                <h2 className='loading'>Loading Tests.....</h2>
             );
         }
         else {
@@ -85,8 +85,8 @@ class GroupDetailStudent extends Component {
                     if (test.isCompleted) {
 
                         return (
-                            <tr>
-                                <td><span className="fa fa-file fa-lg"></span>{test.title}</td>
+                            <tr className='group-data-row'>
+                                <td>{test.title}</td>
                                 <td>{moment.utc(test.startDate).local().format('llll')}</td>
                                 <td>{test.subject}</td>
                                 <td>{test.duration}</td>
@@ -95,7 +95,7 @@ class GroupDetailStudent extends Component {
                                 <td>{negPercentage}</td>
                                 <td>{test.totalMarks}</td>
                                 <td>
-                                    <Link to={`/student/result/${test.testType}/${test._id}`} ><Button color="success" size="sm">Results</Button></Link>
+                                    <Link to={`/student/result/${test.testType}/${test._id}`} ><Button outline color="success" size="sm">Results</Button></Link>
                                 </td>
                             </tr>
 
@@ -113,8 +113,8 @@ class GroupDetailStudent extends Component {
                             examlink = `/exam3/${this.state.group._id}/${test._id}`;
                         }
                         return (
-                            <tr>
-                                <td><span className="fa fa-file fa-lg"></span>{test.title}</td>
+                            <tr className='group-data-row'>
+                                <td>{test.title}</td>
                                 <td>{moment.utc(test.startDate).local().format('llll')}</td>
                                 <td>{test.subject}</td>
                                 <td>{test.duration}</td>
@@ -123,7 +123,7 @@ class GroupDetailStudent extends Component {
                                 <td>{negPercentage}</td>
                                 <td>{test.totalMarks}</td>
                                 <td>
-                                    <Link to={examlink} ><Button outline color="grey" size="sm">Start Test</Button></Link>
+                                    <Link to={examlink} ><Button outline color="primary" size="sm">Start Test</Button></Link>
                                 </td>
                             </tr>
 
@@ -155,42 +155,37 @@ class GroupDetailStudent extends Component {
                     <TabContent activeTab={this.state.activeTab}>
 
                         <TabPane tabId="1">
-                            <Row>
-                                <Col sm="12">
-                                    <Table striped bordered hover>
-                                        <thead>
-                                            <tr>
-                                                <th>Test Name</th>
-                                                <th>Start Date</th>
-                                                <th>Subject</th>
-                                                <th>Duration(in Minutes)</th>
-                                                <th>Test Type</th>
-                                                <th>Negative Marking</th>
-                                                <th>Negative Percentage</th>
-                                                <th>Total Marks</th>
-                                                <th>Start / Result</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {testslist}
-                                        </tbody>
-                                    </Table>
-                                </Col>
-                            </Row>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Test Name</th>
+                                            <th>Start Date</th>
+                                            <th>Subject</th>
+                                            <th>Duration(in Mins)</th>
+                                            <th>Test Type</th>
+                                            <th>Negative Marking</th>
+                                            <th>Negative Percentage</th>
+                                            <th>Total Marks</th>
+                                            <th>Start/Result</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {testslist}
+                                    </tbody>
+                                </table>
+                            </div>
 
                         </TabPane>
 
                         <TabPane tabId="2">
-                            <Row>
-                                <Col sm="12">
-                                    <h5>Group Name: <strong>{this.state.group.name}</strong></h5>
-                                    <h5>Group Type: {grouptype}
-                                    </h5>
-                                    <h5>
-                                        Group ID: {this.state.group._id}
-                                    </h5>
-                                </Col>
-                            </Row>
+                            <div className='group-details'>
+                                <h5>Group Name: <span>{this.state.group.name}</span></h5>
+                                <h5>Group Type: <span>{grouptype}</span></h5>
+                                <h5>
+                                    Group ID: <span>{this.state.group._id}</span>
+                                </h5>
+                            </div>
 
                         </TabPane>
                     </TabContent>

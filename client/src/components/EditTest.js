@@ -5,6 +5,7 @@ import { baseUrl } from '../shared/baseUrl';
 import AuthIFrame from './AuthIFrame';
 import moment from 'moment';
 import axios from 'axios';
+import { Edit, Trash } from '../utils/ImageUtils';
 
 //A component to add questions while creating test and editing test details and questions
 
@@ -469,7 +470,7 @@ class EditTest extends Component {
                 <div className="container">
                     <div className="row row-content">
                         <div className="col-12">
-                            <h2>Loading Test.....</h2>
+                            <h2 className='loading'>Loading Test.....</h2>
                         </div>
                     </div>
                 </div>
@@ -483,7 +484,13 @@ class EditTest extends Component {
                     if (question.questionType === '1')
                         return (
                             <Card className="mt-2">
-                                <CardHeader as="h5" style={{ backgroundColor: 'rgba(0,186,0,0.5)' }}>Question : {index + 1}<span style={{ position: 'absolute', right: 0 }}><span className="fa fa-edit fa-lg mr-5" onClick={() => this.toggleModalEdit(index)}></span><span className="fa fa-trash fa-lg mr-2" onClick={() => this.handleQuestionDelete(index)}></span></span></CardHeader>
+                                <CardHeader className='edit-que-header' style={{ backgroundColor: 'rgba(0,186,0,0.5)' }}>
+                                    <h5>Question : {index + 1}</h5>
+                                    <span className='edit-que-function'>
+                                        <img src={Edit} alt="edit" onClick={() => this.toggleModalEdit(index)} />
+                                        <img src={Trash} alt="trash" onClick={() => this.handleQuestionDelete(index)} />
+                                    </span>
+                                </CardHeader>
                                 <CardBody>
                                     <CardTitle>{question.question}</CardTitle>
                                     <CardText>
@@ -501,7 +508,13 @@ class EditTest extends Component {
                     else if (question.questionType === '2' || question.questionType === '3')
                         return (
                             <Card className="mt-2">
-                                <CardHeader as="h5" style={{ backgroundColor: 'rgba(0,186,0,0.5)' }}>Question : {index + 1}<span style={{ position: 'absolute', right: 0 }}><span className="fa fa-edit fa-lg mr-5" onClick={(event) => this.toggleModalEdit(index)}></span><span className="fa fa-trash fa-lg mr-2" onClick={() => this.handleQuestionDelete(index)}></span></span></CardHeader>
+                                <CardHeader className='edit-que-header' style={{ backgroundColor: 'rgba(0,186,0,0.5)' }}>
+                                    <h1>Question : {index + 1}</h1>
+                                    <span className='edit-que-function'>
+                                        <img src={Edit} alt="edit" onClick={() => this.toggleModalEdit(index)} />
+                                        <img src={Trash} alt="trash" onClick={() => this.handleQuestionDelete(index)} />
+                                    </span>
+                                </CardHeader>
                                 <CardBody>
                                     <CardTitle>{question.question}</CardTitle>
                                     <CardText>
@@ -652,11 +665,17 @@ class EditTest extends Component {
                 </FormGroup>
             </>) : (<></>)
             return (
-                <div className="container">
+                <div className="container edit-test-wrapper">
                     <div className="row row-content">
                         <div className="col-12">
                             <Card className="mt-2">
-                                <CardHeader as="h5" className="bg-warning">Test Details<span style={{ position: 'absolute', right: 0 }}><span className="fa fa-edit fa-lg mr-5" onClick={this.toggleModal2}></span><span className="fa fa-trash fa-lg mr-2" onClick={this.handleTestDelete}></span></span></CardHeader>
+                                <CardHeader className="bg-warning edit-test-header">
+                                    <h5>Test Details</h5>
+                                    <span className='edit-test-function'>
+                                        <img src={Edit} alt="edit" onClick={this.toggleModal2} />
+                                        <img src={Trash} alt="trash" onClick={this.handleTestDelete} />
+                                    </span>
+                                </CardHeader>
                                 <CardBody>
                                     <CardTitle>Title: &emsp;{test.title}
                                         <br />Subject:  &emsp;{test.subject}

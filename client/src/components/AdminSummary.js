@@ -84,7 +84,7 @@ class AdminSummary extends Component {
     render() {
         if (this.state.isFetching) {
             return (
-                <p>Loading Group Result Summary:-----</p>
+                <h2 className='loading'>Loading Group Result Summary.....</h2>
             );
         }
         else {
@@ -119,24 +119,26 @@ class AdminSummary extends Component {
             }
             return (
                 <div className="container mt-5">
-                    <Button color="yellow" size="sm" onClick={this.downloadfile}> Download Sheet</Button>
-                    <Table striped bordered hover>
-                        <thead>
-                            <tr>
-                                <th>S. No.</th>
-                                <th>Name</th>
-                                <th>Unique Id</th>
-                                <th>Maximum Marks</th>
-                                <th>Positive Marks</th>
-                                <th>Negative Marks</th>
-                                <th>Marks</th>
-                                <th>Responses</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {testslist}
-                        </tbody>
-                    </Table>
+                    <Button color="yellow" size="sm" className='mb-3' onClick={this.downloadfile}> Download Sheet</Button>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>S. No.</th>
+                                    <th>Name</th>
+                                    <th>Unique Id</th>
+                                    <th>Maximum Marks</th>
+                                    <th>Positive Marks</th>
+                                    <th>Negative Marks</th>
+                                    <th>Marks</th>
+                                    <th>Responses</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {testslist}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             );
         }

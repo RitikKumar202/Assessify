@@ -217,7 +217,7 @@ class GroupDetailAdmin extends Component {
     render() {
         if (this.state.isFetching) {
             return (
-                <p>Loading Groups:-----</p>
+                <h2 className='loading'>Loading Groups.....</h2>
             );
         }
         else {
@@ -228,7 +228,7 @@ class GroupDetailAdmin extends Component {
             if (group.pendingReq.length) {
                 pendingReqList = group.pendingReq.map((req) => {
                     return (
-                        <tr>
+                        <tr key={req.uniqueID} className='group-data-row'>
                             <td>{req.name}</td>
                             <td>{req.uniqueID}</td>
                             <td><Button type="submit" color="outline-primary" size="sm" onClick={() => this.handleAcceptmember(req)}>Confirm</Button> <Button type="submit" color="outline-danger" size="sm" onClick={() => this.handleDeleteReq(req)}>Delete</Button></td>
@@ -246,7 +246,7 @@ class GroupDetailAdmin extends Component {
                 memberList = group.members.map((req, index) => {
                     var sno = index + 1;
                     return (
-                        <tr>
+                        <tr key={sno} className='group-data-row'>
                             <td>{sno}</td>
                             <td>{req.name}</td>
                             <td>{req.uniqueID}</td>
@@ -277,8 +277,8 @@ class GroupDetailAdmin extends Component {
                     var negative = test.negative ? "YES" : "NO";
                     var negPercentage = test.negative ? test.negPercentage : "0";
                     return (
-                        <tr>
-                            <td><span className="fa fa-file fa-lg"></span>{test.title}</td>
+                        <tr className='group-data-row'>
+                            <td>{test.title}</td>
                             {/* <td>{moment.utc(test.startDate).local().format('MMMM Do YYYY,h:mm:ss a')}</td> */}
                             <td>{moment.utc(test.startDate).local().format('llll')}</td>
                             <td>{test.subject}</td>
@@ -330,88 +330,75 @@ class GroupDetailAdmin extends Component {
                     </Nav>
                     <TabContent activeTab={this.state.activeTab}>
                         <TabPane tabId="2">
-                            <Row>
-                                <Col sm="5">
-                                    <Table striped bordered hover>
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Unique Id</th>
-                                                <th>Requests</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {pendingReqList}
-                                        </tbody>
-                                    </Table>
-
-                                </Col>
-                            </Row>
-
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Unique Id</th>
+                                            <th>Requests</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {pendingReqList}
+                                    </tbody>
+                                </table>
+                            </div>
                         </TabPane>
                         <TabPane tabId="3">
-                            <Row>
-                                <Col sm="12">
-                                    <Table striped bordered hover>
-                                        <thead>
-                                            <tr>
-                                                <th>S.N.</th>
-                                                <th>Name</th>
-                                                <th>Unique Id</th>
-                                                <th>Remove</th>
-                                                <th>Details</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {memberList}
-                                        </tbody>
-                                    </Table>
-
-                                </Col>
-                            </Row>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>S.N.</th>
+                                            <th>Name</th>
+                                            <th>Unique Id</th>
+                                            <th>Remove</th>
+                                            <th>Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {memberList}
+                                    </tbody>
+                                </table>
+                            </div>
                         </TabPane>
 
                         <TabPane tabId="1">
-                            <Row>
-                                <Col sm="12">
-                                    <Table striped bordered hover>
-                                        <thead>
-                                            <tr>
-                                                <th>Test Name</th>
-                                                <th>Tentative Start Time</th>
-                                                <th>Subject</th>
-                                                <th>Max.Duration(in Min)</th>
-                                                <th>Test Type</th>
-                                                <th>Negative Mark.</th>
-                                                <th>Neg. Percentage</th>
-                                                <th>Max.Score</th>
-                                                <th>Preview</th>
-                                                <th>Summary</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {testslist}
-                                        </tbody>
-                                    </Table>
-
-                                </Col>
-                            </Row>
-                            <Link to={`/createtest/${group._id}`} ><Button outline color="pink" size="sm"> Create a New </Button></Link>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Test Name</th>
+                                            <th>Tentative Start Time</th>
+                                            <th>Subject</th>
+                                            <th>Max. Duration(in Min)</th>
+                                            <th>Test Type</th>
+                                            <th>Negative Mark.</th>
+                                            <th>Neg. Percentage</th>
+                                            <th>Max. Score</th>
+                                            <th>Preview</th>
+                                            <th>Summary</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {testslist}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <Link to={`/createtest/${group._id}`} ><Button className='create-test-btn' color="pink" size="sm">Create New Test</Button></Link>
                         </TabPane>
-                        <TabPane tabId="4">
-                            <Row>
-                                <Col sm="12">
-                                    <h5>Group Name: <strong>{group.name}</strong></h5>
-                                    <h5>Group Type: {grouptype}
-                                    </h5>
-                                    <h5>
-                                        Group ID: {group._id}
-                                    </h5>
-                                    <p>Share the Above group ID with Students to help them send a join req to the Group</p>
 
-                                </Col>
-                            </Row>
-                            <Button outline color="red" size="sm" onClick={this.handleDeleteGroup}> Delete this Group </Button>
+                        <TabPane tabId="4">
+                            <div className='group-details'>
+                                <h5>Group Name: <span>{group.name}</span></h5>
+                                <h5>Group Type: <span>{grouptype}</span></h5>
+                                <h5>
+                                    Group ID: <span>{group._id}</span>
+                                </h5>
+                                <p><span>*</span>Share the above group ID with Students to help them send a join req to the Group</p>
+                            </div>
+                            <Button color="red" size="sm" onClick={this.handleDeleteGroup}> Delete this Group </Button>
 
                         </TabPane>
                     </TabContent>
