@@ -132,6 +132,10 @@ class Profile extends Component {
                                     <Table striped bordered hover>
                                         <tbody>
                                             <tr>
+                                                <td><b>Username</b> </td>
+                                                <td>{user.username}</td>
+                                            </tr>
+                                            <tr>
                                                 <td><b>Name</b> </td>
                                                 <td>{user.firstname} {user.lastname}</td>
                                             </tr>

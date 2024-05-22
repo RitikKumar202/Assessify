@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 //Importing all the Components created so far
 
 import Header from './Header';
-// import Footer from './FooterComponent';
 import Home from './Home';
 import Student from './Student';
 import Exam from './Exam';
@@ -13,7 +12,7 @@ import Exam2 from './Exam2.js';
 import Exam3 from './Exam3.js';
 import Register from './Register';
 import Admin from './Admin';
-// import Help from './HelpComponent';
+import Help from './Help';
 import CreateTest from './CreateTest';
 import EditTest from './EditTest';
 import GroupDetailAdmin from './GroupDetailAdmin';
@@ -116,7 +115,7 @@ class Main extends Component {
                         <Route path="/home" exact component={HomePage} />
                         <Route path="/login" exact component={Login} />
                         <Route path="/register" exact component={Register} />
-                        {/* <Route path="/help" component={Help}/> */}
+                        <Route path="/help" component={Help} />
                         <Route path="/contact-us" component={ContactUs} />
                         <Route path="/forgot-password" component={PasswordRecovery} />
                         <PrivateRoute exact path="/student" component={Student} />
@@ -138,8 +137,6 @@ class Main extends Component {
                         <PrivateRoute path="/adminSummary/:testType/:testId" component={AdminSummary} />
                         <Redirect to="/home" />
                     </Switch>
-
-                    {/* <Footer/> */}
                 </>
             </div>
         );
