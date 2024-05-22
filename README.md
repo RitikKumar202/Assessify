@@ -57,7 +57,7 @@ Terminal 2: Setting Up Frontend
 [MIT](https://choosealicense.com/licenses/mit/)
 
 
-## Authors
+## Developers
 
 - [@Ritik Kumar](https://www.linkedin.com/in/ritikkumar202/)
 - [@Amandeep Kaur](https://www.linkedin.com/in/amandeep-kaur-a89a17212/)
