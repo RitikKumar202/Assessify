@@ -8,7 +8,7 @@ class Help extends Component {
             <div className="help-container" >
                 <div className="help-wrapper">
                     <h2>Using Website:</h2>
-                    <div class="help-content">
+                    <div className="help-content">
                         <strong>Admins:</strong>
                         <ol>
                             <li>Begin by setting up an Admin account through the registration menu.</li>

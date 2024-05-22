@@ -39,22 +39,8 @@ app.use('/createtest', createTestRouter);        //Router to handle request rela
 app.use('/forgotPassword', forgotPassword);
 app.get('/', (req, res) => {
 
-    res.send('Hello from Quiz-time server !!!')
-})
-
-// app.post('/login/user',passport.authenticate('user-local',{session:false}) ,(req,res)=>{
-//     console.log(req.user);
-//     var token = authenticate.getToken({_id: req.user._id});
-//     res.statusCode = 200;
-//      res.setHeader('Content-Type', 'application/json');
-//     res.json({success: true, token: token, status: 'You are successfully logged in!',user:req.user});
-// });
-// app.post('/login/admin',passport.authenticate('admin-local',{session:false}) ,(req,res)=>{
-//     var token = authenticate.getToken({_id: req.user._id});
-//     res.statusCode = 200;
-//     res.setHeader('Content-Type', 'application/json');
-//     res.json({success: true, token: token, status: 'You are successfully logged in!',user:req.user});
-// });
+    res.send('Hello from Assessify server !!!')
+});
 
 app.post('/login/admin', (req, res, next) => {
     passport.authenticate('admin-local', (err, user, info) => {
