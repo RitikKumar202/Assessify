@@ -64,4 +64,6 @@ Terminal 2: Setting Up Frontend
 - Arpita Kumari Singh
 - Vratika Tyagi
 
-
+## Deployment
+- ***Render*** - Server side
+- ***Netlify*** - Client side
