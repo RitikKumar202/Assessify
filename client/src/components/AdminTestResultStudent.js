@@ -29,11 +29,11 @@ class AdminStudentResult extends Component {
         })
             .then(response => response.json())
             .then(result => {
-                console.log(result)
+                // console.log(result)
                 this.setState({ test: result, isFetching: false })
             })
             .catch(e => {
-                console.log(e);
+                // console.log(e);
                 this.setState({ ...this.state, isFetching: false });
             });
 
@@ -42,7 +42,7 @@ class AdminStudentResult extends Component {
     render() {
         if (this.state.isFetching) {
             return (
-                <>Loading-----</>
+                <h2 className='loading'>Loading.....</h2>
             )
         }
         else {

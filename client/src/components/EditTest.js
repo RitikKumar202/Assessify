@@ -221,7 +221,7 @@ class EditTest extends Component {
                 })
             .then(response => response.json())
             .then(testrecieved => {
-                console.log('Question Added in ', testrecieved);
+                // console.log('Question Added in ', testrecieved);
                 this.setState({
                     test: testrecieved,
                     question: '',
@@ -241,7 +241,7 @@ class EditTest extends Component {
         var date = new Date(this.state.startDate);
 
         var adjustedDate = moment.utc(date).toISOString(true);
-        console.log(adjustedDate);
+        // console.log(adjustedDate);
         const testnew = {
             title: this.state.title,
             duration: this.state.duration,
@@ -277,7 +277,7 @@ class EditTest extends Component {
                 })
             .then(response => response.json())
             .then(tests => {
-                console.log('Test Created', tests);
+                // console.log('Test Created', tests);
                 this.setState({
                     test: tests,
                     isModalOpen2: false
@@ -315,7 +315,7 @@ class EditTest extends Component {
                     })
                 .then(response => response.json())
                 .then(response => {
-                    console.log('Test Deleted', response.Mssg);
+                    // console.log('Test Deleted', response.Mssg);
                     this.props.history.push('/admingroups/' + this.props.match.params.groupId)
                     // this.toggleModal2();
                 })
@@ -376,7 +376,7 @@ class EditTest extends Component {
                 })
             .then(response => response.json())
             .then(testrecieved => {
-                console.log('Question Added in ', testrecieved);
+                // console.log('Question Added in ', testrecieved);
                 this.setState({
                     test: testrecieved,
                     question: '',
@@ -421,7 +421,7 @@ class EditTest extends Component {
                     })
                 .then(response => response.json())
                 .then(testrecieved => {
-                    console.log('Question deleted and new paper is ', testrecieved);
+                    // console.log('Question deleted and new paper is ', testrecieved);
                     this.setState({
                         test: testrecieved,
                     });

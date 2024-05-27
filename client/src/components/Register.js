@@ -439,7 +439,7 @@ class Register extends Component {
                                         name="agree"
                                         checked={this.state.agree}
                                         onChange={this.handleInputChange} /> {' '}
-                                    <strong>I accept all the terms & conditions of QUIZ TIME.</strong>
+                                    <strong>I accept all the terms & conditions of Assessify.</strong>
                                 </Label>
                             </FormGroup>
                             <FormGroup row>

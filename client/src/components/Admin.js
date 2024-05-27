@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createGroup, acceptMember, removeReq, removeMem, joinGroup, createTest, fetchGroups } from '../redux/ActionCreators/GroupActions.js';
 import { Groups } from '../utils/ImageUtils.js';
+import { toast } from 'react-toastify';
 
 const mapStateToProps = state => ({
     auth: state.auth,
     groups: state.groups,
 });
+
 const mapDispatchToProps = (dispatch) => ({
     createGroup: (group) => dispatch(createGroup(group)),
     acceptMember: (groupId, request) => dispatch(acceptMember(groupId, request)),
@@ -18,7 +20,6 @@ const mapDispatchToProps = (dispatch) => ({
     createTest: (groupId, test) => dispatch(createTest(groupId, test)),
     fetchGroups: (type) => dispatch(fetchGroups(type))
 });
-
 
 function GroupRows({ group }) {
     return (
@@ -63,7 +64,6 @@ class Admin extends Component {
         });
     }
 
-
     handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -76,45 +76,42 @@ class Admin extends Component {
 
     handleCreateGroup(event) {
         this.toggleModal();
-        alert('The following group will be Initailised Name: ' + this.state.group_name + ' Private: ' + this.state.private);
+        toast.success(this.state.group_name + ' group created successfully');
         var group = {
             name: this.state.group_name,
             isPrivate: this.state.private
-        }
+        };
         this.props.createGroup(group);
         event.preventDefault();
     }
+
     componentDidMount() {
-        this.props.fetchGroups('admins')
-
-
+        this.props.fetchGroups('admins');
     }
 
     render() {
         const groups = this.props.groups.groups;
         console.log(groups);
-        var grouplist;
-        if (groups) {
+        let grouplist;
+
+        if (groups && groups.length > 0) {
             grouplist = groups.map((g) => {
                 return (
-                    <GroupRows group={g} />
+                    <GroupRows key={g._id} group={g} />
                 );
             });
-
+        } else {
+            grouplist = (
+                <tr>
+                    <td colSpan="5">There are no Groups</td>
+                </tr>
+            );
         }
-        else {
-            grouplist = () => {
-                return (
-                    <tr>There are no Groups</tr>
-                );
-            };
-        }
-
 
         return (
             <div className="container mt-5">
-                <div class="table-responsive" activeTab={this.state.activeTab}>
-                    <table class="table">
+                <div className="table-responsive" activeTab={this.state.activeTab}>
+                    <table className="table">
                         <thead>
                             <tr>
                                 <th>Group Name</th>
@@ -135,7 +132,7 @@ class Admin extends Component {
 
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                     <ModalHeader toggle={this.toggleModal}><strong>New Group</strong></ModalHeader>
-                    <ModalBody >
+                    <ModalBody>
                         <Form onSubmit={this.handleCreateGroup}>
                             <FormGroup row>
                                 <Col md={10}>
@@ -153,11 +150,11 @@ class Admin extends Component {
                                         checked={this.state.private}
                                         onChange={this.handleInputChange} /> {' '}
                                     <strong> Create a Private Group</strong>
-                                    <p>Private group enables users with  group ID Code to send Join Request , Public group (default) enable users to directly join with group ID code.</p>
+                                    <p>Private group enables users with group ID Code to send Join Request, Public group (default) enable users to directly join with group ID code.</p>
                                 </Label>
                             </FormGroup>
 
-                            <FormGroup row >
+                            <FormGroup row>
                                 <Col md={{ size: 10 }}>
                                     <Button type="submit" color="success" size="md" style={{ float: 'right' }}>
                                         Create
@@ -169,9 +166,7 @@ class Admin extends Component {
                 </Modal>
             </div>
         );
-
     }
-
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Admin);

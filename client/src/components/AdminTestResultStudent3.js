@@ -79,7 +79,7 @@ class AdminStudentResult3 extends Component {
             body: JSON.stringify(evaluatedData)
         }).then(response => response.json())
             .then(result => {
-                console.log(result)
+                // console.log(result)
                 if (result.isQuestionInPDF) {
                     this.setState({
                         questionsLink: `${baseUrl}admin/${evaluatedData.testid}/testPaper`
@@ -89,7 +89,7 @@ class AdminStudentResult3 extends Component {
                 this.toggleModal();
             })
             .catch(e => {
-                console.log(e);
+                // console.log(e);
                 this.setState({ ...this.state, isFetching: false });
                 this.toggleModal();
             });
@@ -117,7 +117,7 @@ class AdminStudentResult3 extends Component {
                 this.props.history.push(`/adminSummary/3/${evaluatedData.testid}`)
             })
             .catch(e => {
-                console.log(e);
+                // console.log(e);
                 this.setState({ ...this.state, isFetching: false });
             });
 
@@ -143,7 +143,7 @@ class AdminStudentResult3 extends Component {
                 this.setState({ test: result, isFetching: false })
             })
             .catch(e => {
-                console.log(e);
+                // console.log(e);
                 this.setState({ ...this.state, isFetching: false });
             });
 

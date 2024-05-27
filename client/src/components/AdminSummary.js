@@ -35,7 +35,7 @@ class AdminSummary extends Component {
                 link.click();
             })
             .catch(e => {
-                console.log(e);
+                // console.log(e);
             });
 
         // const link =document.createElement('a');
@@ -76,7 +76,7 @@ class AdminSummary extends Component {
                 this.setState({ group: result, isFetching: false })
             })
             .catch(e => {
-                console.log(e);
+                // console.log(e);
                 this.setState({ ...this.state, isFetching: false });
             });
     }
@@ -120,8 +120,8 @@ class AdminSummary extends Component {
             return (
                 <div className="container mt-5">
                     <Button color="yellow" size="sm" className='mb-3' onClick={this.downloadfile}> Download Sheet</Button>
-                    <div class="table-responsive">
-                        <table class="table">
+                    <div className="table-responsive">
+                        <table className="table">
                             <thead>
                                 <tr>
                                     <th>S. No.</th>

@@ -5,6 +5,7 @@ import classnames from 'classnames';
 import { connect } from 'react-redux'
 import { joinGroup, fetchGroups } from '../redux/ActionCreators/GroupActions';
 import { Groups } from '../utils/ImageUtils';
+import { toast } from 'react-toastify';
 
 const mapStateToProps = state => ({
     groups: state.groups,
@@ -60,7 +61,8 @@ class Student extends Component {
 
     handleJoinGroup(event) {
         this.toggleModal();
-        alert('The following Req will be Sent to join the Group: ' + this.state.groupId);
+        // alert('The following Req will be Sent to join the Group: ' + this.state.groupId);
+        toast.success('Successfully sent the join request');
         var req = {
             name: this.state.name,
             uniqueID: this.state.uniqueID,
@@ -71,29 +73,31 @@ class Student extends Component {
     }
     render() {
         const groups = this.props.groups.groups;
-        var grouplist;
-        if (groups) {
+        let grouplist;
+
+        if (groups && groups.length > 0) {
             grouplist = groups.map((group, index) => {
                 return (
-                    <tr className='group-data-row'>
+                    <tr className='group-data-row' key={group._id}>
                         <td>{index + 1}</td>
                         <td><img src={Groups} alt="Groups" />{group.name}</td>
                         <td>{group.creator.firstname}</td>
                         <td>{group.tests.length}</td>
-                        <td><Link to={`/studentgroups/${group._id}`} ><Button outline color="info" size="sm">Details </Button></Link></td>
+                        <td><Link to={`/studentgroups/${group._id}`} ><Button outline color="info" size="sm">Details</Button></Link></td>
                     </tr>
                 );
-            })
+            });
+        } else {
+            grouplist = (
+                <tr>
+                    <td colSpan="5">You are not a member of Any Group</td>
+                </tr>
+            );
         }
-        else {
-            grouplist = 'You are not member of Any Group'
-        }
+
         return (
             <div className="container mt-5">
-
                 {/* A Navigation Tab to switch between old tests and new ones */}
-
-
                 <Nav tabs>
                     <NavItem>
                         <NavLink className={classnames({ active: this.state.activeTab === '1' })} onClick={() => { this.toggleTab('1'); }}>
@@ -103,8 +107,8 @@ class Student extends Component {
                 </Nav>
 
                 {/* Contents of both tabs */}
-                <div class="table-responsive" activeTab={this.state.activeTab}>
-                    <table class="table">
+                <div className="table-responsive" activeTab={this.state.activeTab}>
+                    <Table className="table">
                         <thead>
                             <tr>
                                 <th>S.No.</th>
@@ -117,12 +121,12 @@ class Student extends Component {
                         <tbody>
                             {grouplist}
                         </tbody>
-                    </table>
+                    </Table>
                 </div>
                 <Button className='join-group-btn' onClick={this.toggleModal} type="submit" color="primary">Join Group</Button>
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                     <ModalHeader toggle={this.toggleModal}><strong>Join A Group</strong></ModalHeader>
-                    <ModalBody >
+                    <ModalBody>
                         <Form onSubmit={this.handleJoinGroup}>
                             <FormGroup row>
                                 <Col md={10}>
@@ -148,7 +152,7 @@ class Student extends Component {
                                         onChange={this.handleInputChange} />
                                 </Col>
                             </FormGroup>
-                            <FormGroup row >
+                            <FormGroup row>
                                 <Col md={{ size: 10 }}>
                                     <Button type="submit" color="outline-success" size="md" style={{ float: 'right' }}>
                                         Send Request
@@ -159,9 +163,7 @@ class Student extends Component {
                     </ModalBody>
                 </Modal>
             </div>
-
         );
-
     }
 
 }

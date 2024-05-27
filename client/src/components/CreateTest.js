@@ -52,7 +52,7 @@ class CreateTest extends Component {
         event.preventDefault();
         var date = new Date(this.state.startDate + " " + this.state.startTime);
         var adjustedDate = moment.utc(date).toISOString(true);
-        console.log(date);
+        // console.log(date);
         // const neg=this.state.negative==="true"?true:false;
         const testnew = {
 
@@ -112,7 +112,7 @@ class CreateTest extends Component {
                         }
                     })
                         .then(res => {
-                            console.log(res)
+                            // console.log(res)
                             this.props.history.push(`/home`)
                         }
                         ).catch(err => console.log(err));

@@ -135,7 +135,11 @@ class GroupDetailStudent extends Component {
                 })
             }
             else {
-                testslist = 'No tests Available Yet'
+                testslist = (
+                    <tr>
+                        <td colSpan="9">No tests Available Yet</td>
+                    </tr>
+                );
             }
             var grouptype = this.state.group.isPrivate ? 'Private' : 'Public';
             return (
@@ -155,8 +159,8 @@ class GroupDetailStudent extends Component {
                     <TabContent activeTab={this.state.activeTab}>
 
                         <TabPane tabId="1">
-                            <div class="table-responsive">
-                                <table class="table">
+                            <div className="table-responsive">
+                                <table className="table">
                                     <thead>
                                         <tr>
                                             <th>Test Name</th>

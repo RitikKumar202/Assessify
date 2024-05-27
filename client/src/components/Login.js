@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Card, CardBody, CardHeader, Form, FormGroup, FormFeedback, Col, Input, Button, Label } from 'reactstrap';
 import { loginUser } from '../redux/ActionCreators/LoginActions';
 import { Redirect, Link } from 'react-router-dom'
+import { toast } from 'react-toastify';
 
 const mapDispatchToProps = (dispatch) => ({
     loginUser: (creds) => dispatch(loginUser(creds)),
@@ -62,12 +63,14 @@ class Login extends Component {
             userType: this.state.admin ? 'admins' : 'users'
         };
         event.preventDefault();
-        console.log(user);
+        // console.log(user);
         this.props.loginUser(user);
         // this.props.history.push('/'); 
     }
     render() {
         if (this.props.auth.isAuthenticated) {
+
+            toast.success("Successfully Logged In");
             return (
                 //Redirect to home page
                 <Redirect to='/home' />

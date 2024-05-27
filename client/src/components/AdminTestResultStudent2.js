@@ -24,8 +24,8 @@ class AdminStudentResult2 extends Component {
         const name = target.name;
         const ind = target.dataset.tag;
         var testnew = this.state.test;
-        console.log(target);
-        console.log(ind);
+        // console.log(target);
+        // console.log(ind);
 
         testnew.response[ind][name] = value;
         this.setState({
@@ -58,11 +58,11 @@ class AdminStudentResult2 extends Component {
             body: JSON.stringify(evaluatedData)
         }).then(response => response.json())
             .then(result => {
-                console.log(result)
+                // console.log(result)
                 this.setState({ test: result, isFetching: false })
             })
             .catch(e => {
-                console.log(e);
+                // console.log(e);
                 this.setState({ ...this.state, isFetching: false });
             });
 
@@ -83,12 +83,12 @@ class AdminStudentResult2 extends Component {
             body: JSON.stringify(evaluatedData)
         }).then(response => response.json())
             .then(result => {
-                console.log(result)
+                // console.log(result)
                 this.setState({ test: result, isFetching: false })
                 this.props.history.push(`/adminSummary/2/${evaluatedData.testid}`)
             })
             .catch(e => {
-                console.log(e);
+                // console.log(e);
                 this.setState({ ...this.state, isFetching: false });
             });
 
@@ -108,11 +108,11 @@ class AdminStudentResult2 extends Component {
         })
             .then(response => response.json())
             .then(result => {
-                console.log(result)
+                // console.log(result)
                 this.setState({ test: result, isFetching: false })
             })
             .catch(e => {
-                console.log(e);
+                // console.log(e);
                 this.setState({ ...this.state, isFetching: false });
             });
 
@@ -121,7 +121,7 @@ class AdminStudentResult2 extends Component {
     render() {
         if (this.state.isFetching) {
             return (
-                <>Loading-----</>
+                <h2 className='loading'>Loading.....</h2>
             )
         }
         else {

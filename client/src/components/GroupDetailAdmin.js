@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { acceptMember, removeMem, removeReq, DeleteGroup } from '../redux/ActionCreators/GroupActions'
 import { baseUrl } from '../shared/baseUrl';
 import moment from 'moment';
+import { toast } from 'react-toastify';
 
 
 
@@ -206,6 +207,7 @@ class GroupDetailAdmin extends Component {
     handleDeleteGroup() {
         var y = window.confirm("Are You Really want to delete the group? All Data Related to the group will be lost and It is Irriversible Operation");
         if (y) {
+            toast.success("Group deleted successfully");
             this.props.DeleteGroup(this.state.group._id);
             this.props.history.push('/');
         }
@@ -262,7 +264,11 @@ class GroupDetailAdmin extends Component {
                     );
                 });
             } else {
-                memberList = 'There are No Members in the group';
+                memberList = (
+                    <tr>
+                        <td colSpan="5">There are No Members in the group</td>
+                    </tr>
+                );
             }
 
             var testslist;
@@ -300,7 +306,11 @@ class GroupDetailAdmin extends Component {
                     );
                 });
             } else {
-                testslist = 'No tests Created Yet';
+                testslist = (
+                    <tr>
+                        <td colSpan="10">No tests Created Yet</td>
+                    </tr>
+                );
             }
 
             var grouptype = group.isPrivate ? 'Private' : 'Public';
@@ -332,8 +342,8 @@ class GroupDetailAdmin extends Component {
                     </Nav>
                     <TabContent activeTab={this.state.activeTab}>
                         <TabPane tabId="2">
-                            <div class="table-responsive">
-                                <table class="table">
+                            <div className="table-responsive">
+                                <table className="table">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
@@ -348,8 +358,8 @@ class GroupDetailAdmin extends Component {
                             </div>
                         </TabPane>
                         <TabPane tabId="3">
-                            <div class="table-responsive">
-                                <table class="table">
+                            <div className="table-responsive">
+                                <table className="table">
                                     <thead>
                                         <tr>
                                             <th>S.N.</th>
@@ -367,8 +377,8 @@ class GroupDetailAdmin extends Component {
                         </TabPane>
 
                         <TabPane tabId="1">
-                            <div class="table-responsive">
-                                <table class="table">
+                            <div className="table-responsive">
+                                <table className="table">
                                     <thead>
                                         <tr>
                                             <th>Test Name</th>
